@@ -50,7 +50,7 @@
                         <span>@lang('Tutores y Tribunales')</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="titulados.tutores.tutores">@lang('Tutores')</a></li>
+                        <li><a href="{{route('modalidad')}}">@lang('Tutores')</a></li>
                         <li><a href="ecommerce-product-detail">@lang('Tribunales')</a></li>
                     </ul>
                 </li>

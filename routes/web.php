@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\ModalidadController;
+use App\Models\Modalidad;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +19,7 @@ use App\Http\Controllers\PasswordController;
 
 
 Auth::routes();
+Route::get('/vista_modalidad', [ModalidadController::class, 'vista_modalidad'])->name('modalidad');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root']);
 
@@ -42,3 +46,4 @@ Route::put('/update-info', [PasswordController::class, 'updateInfo'])->name('inf
 
 
 Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index']);
+

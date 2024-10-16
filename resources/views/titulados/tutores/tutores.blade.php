@@ -17,6 +17,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Buscador de tutores</h4>
+                    <p>{{$modalidades}}</p>
                     <form>
                         <div class="row align-items-end">
                             <!-- Columna para el Seleccionar -->
