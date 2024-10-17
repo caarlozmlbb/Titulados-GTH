@@ -10,9 +10,11 @@ return new class extends Migration
     {
         Schema::create('tribunales_acta', function (Blueprint $table) {
             $table->id('id_tribunal_acta');
-            $table->unsignedBigInteger('acta_id');
-            $table->unsignedBigInteger('docente_id');
-            $table->string('rol', 50);
+            $table->unsignedBigInteger('docente_id')->nullable();
+            $table->string('rol', 50)->nullable();
+
+            $table->foreign('docente_id')->references('id_docente')->on('docentes');
+
             $table->timestamps();
         });
     }

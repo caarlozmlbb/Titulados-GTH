@@ -10,15 +10,16 @@ return new class extends Migration
     {
         Schema::create('sorteo_bolos', function (Blueprint $table) {
             $table->id('id_sorteo');
-            $table->unsignedBigInteger('acta_id');
-            $table->string('area', 255);
-            $table->time('hora');
-            $table->date('fecha');
-            $table->string('num_resolucion', 50);
-            $table->string('lugar', 100);
-            $table->timestamps();
+            $table->unsignedBigInteger('acta_id')->nullable();
+            $table->string('area', 255)->nullable();
+            $table->time('hora')->nullable();
+            $table->date('fecha')->nullable();
+            $table->string('num_resolucion', 50)->nullable();
+            $table->string('lugar', 100)->nullable();
 
-            $table->foreign('acta_id')->references('id_acta')->on('actas')->onDelete('cascade');
+            $table->foreign('acta_id')->references('id_acta')->on('actas');
+
+            $table->timestamps();
         });
     }
 

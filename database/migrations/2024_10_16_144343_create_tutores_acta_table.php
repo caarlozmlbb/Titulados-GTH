@@ -10,11 +10,11 @@ return new class extends Migration
     {
         Schema::create('tutores_acta', function (Blueprint $table) {
             $table->id('id_tutor_acta');
-            $table->unsignedBigInteger('acta_id');
-            $table->unsignedBigInteger('docente_id');
-            $table->timestamps();
+            $table->unsignedBigInteger('docente_id')->nullable();
 
-            $table->foreign('acta_id')->references('id_acta')->on('actas')->onDelete('cascade');
+            $table->foreign('docente_id')->references('id_docente')->on('docentes');
+
+            $table->timestamps();
         });
     }
 

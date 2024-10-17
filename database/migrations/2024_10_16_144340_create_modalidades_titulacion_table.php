@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('modalidades_titulacion', function (Blueprint $table) {
             $table->id('id_modalidad');
             $table->string('nombre_modalidad', 100);
+
             $table->timestamps();
         });
     }
