@@ -54,6 +54,24 @@
                         <li><a href="ecommerce-product-detail">@lang('Tribunales')</a></li>
                     </ul>
                 </li> --}}
+                <li class="menu-title">@lang('MODALIDADES')</li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="uil-users-alt"></i>
+                        <span>@lang('Modalidad Egreso')</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('modalidad')}}">@lang('Trabajo Dirigido')</a></li>
+                        <li><a href="{{route('modalidad')}}">@lang('Examen de Grado')</a></li>
+                        <li><a href="{{route('modalidad')}}">@lang('Execelencia Academica')</a></li>
+                        <li><a href="{{route('modalidad')}}">@lang('Proyecto de Grado')</a></li>
+                        <li><a href="{{route('modalidad')}}">@lang('Tesis de Grado')</a></li>
+                        <li><a href="{{route('modalidad')}}">@lang('Técnico Superior')</a></li>
+                        <li><a href="{{route('modalidad')}}">@lang('Técnico Medio')</a></li>
+                        <li><a href="">@lang('Tutores')</a></li>
+                        <li><a href="ecommerce-product-detail">@lang('Tribunales')</a></li>
+                    </ul>
+                </li> 
 
 
                 <li class="menu-title">@lang('GESTIÓN DE TITULACIÓN')</li>

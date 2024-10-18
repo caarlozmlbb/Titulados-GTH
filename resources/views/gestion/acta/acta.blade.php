@@ -112,7 +112,7 @@
                         <table class="table table-editable table-nowrap align-middle table-edits">
                             <thead>
                                 <tr>
-                                    <th>id_acta</th>
+                                    <th>id_actaMaria</th>
                                     <th>modalidad id</th>
                                     <th>tutor acta id</th>
                                     <th>num resolucion</th>
