@@ -3,7 +3,7 @@
 
     <!-- LOGO -->
     <div class="navbar-brand-box">
-        <a href="{{url('index')}}" class="logo logo-dark">
+        <a href="{{ url('index') }}" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="{{ URL::asset('/assets/images/logo-sm.png') }}" alt="" height="22">
             </span>
@@ -12,7 +12,7 @@
             </span>
         </a>
 
-        <a href="{{url('index')}}" class="logo logo-light">
+        <a href="{{ url('index') }}" class="logo logo-light">
             <span class="logo-sm">
                 <img src="{{ URL::asset('/assets/images/logo-sm.png') }}" alt="" height="22">
             </span>
@@ -33,12 +33,12 @@
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
 
-                {{--Trabajaremos aqui--}}
+                {{-- Trabajaremos aqui --}}
 
                 <li class="menu-title">@lang('TITULADOS')</li>
 
-                <li>
-                    <a href="{{url('index')}}">
+                {{-- <li>
+                    <a href="{{ url('index') }}">
                         <i class="uil-home-alt"></i><span class="badge rounded-pill bg-primary float-end">01</span>
                         <span>@lang('Modalidades')</span>
                     </a>
@@ -50,18 +50,55 @@
                         <span>@lang('Tutores y Tribunales')</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('modalidad')}}">@lang('Tutores')</a></li>
+                        <li><a href="">@lang('Tutores')</a></li>
                         <li><a href="ecommerce-product-detail">@lang('Tribunales')</a></li>
+                    </ul>
+                </li> --}}
+
+
+                <li class="menu-title">@lang('GESTIÓN DE TITULACIÓN')</li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>@lang('Datos del Titulado')</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('titulados') }}">@lang('Listado de Titulados')</a></li>
+                        <li><a href="{{route('actas')}}">@lang('Actas de Defensa')</a></li>
+                        <li><a href="{{route('calificacion')}}">@lang('Calificaciones Detalladas')</a></li>
                     </ul>
                 </li>
 
-                 {{--FIN Trabajaremos aqui--}}
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="uil-users-alt"></i>
+                        <span>@lang('Tutores y Tribunales')</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('modalidad') }}">@lang('Listado de Tutores')</a></li>
+                        <li><a href="ruta">@lang('Listado de Tribunales')</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="uil-folder-check"></i>
+                        <span>@lang('Gestión de Sorteos')</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="ruta">@lang('Sorteo de Bolos')</a></li>
+                        <li><a href="ruta">@lang('Estudiantes por Sorteo')</a></li>
+                    </ul>
+                </li>
+
+                  {{-- FIN Trabajaremos aqui --}}
 
 
                 <li class="menu-title">@lang('translation.Menu')</li>
 
                 <li>
-                    <a href="{{url('index')}}">
+                    <a href="{{ url('index') }}">
                         <i class="uil-home-alt"></i><span class="badge rounded-pill bg-primary float-end">01</span>
                         <span>@lang('translation.Dashboard')</span>
                     </a>
@@ -234,7 +271,8 @@
                         <li><a href="ui-sweet-alert">@lang('translation.Sweet_Alert')</a></li>
                         <li><a href="ui-tabs-accordions">@lang('translation.Tabs_Accordions')</a></li>
                         <li><a href="ui-typography">@lang('translation.Typography')</a></li>
-                        <li><a href="ui-utilities.html">@lang('translation.Utilities')<span class="badge rounded-pill bg-success float-end">@lang('translation.New')</span></a></li>
+                        <li><a href="ui-utilities.html">@lang('translation.Utilities')<span
+                                    class="badge rounded-pill bg-success float-end">@lang('translation.New')</span></a></li>
                         <li><a href="ui-toasts">@lang('translation.Toasts')</a></li>
                         <li><a href="ui-video">@lang('translation.Video')</a></li>
                         <li><a href="ui-general">@lang('translation.General')</a></li>

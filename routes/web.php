@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\ActaController;
+use App\Http\Controllers\CalificacionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\ModalidadController;
+use App\Http\Controllers\TituladoController;
 use App\Models\Modalidad;
 
 /*
@@ -20,6 +23,12 @@ use App\Models\Modalidad;
 
 Auth::routes();
 Route::get('/vista_modalidad', [ModalidadController::class, 'vista_modalidad'])->name('modalidad');
+/*Rutas carlos */
+Route::get('/calificacion_detallada', [CalificacionController::class, 'listar_calificaciones'])->name('calificacion');
+Route::get('/buscar-estudiante', [CalificacionController::class, 'buscarEstudiante'])->name('buscar.estudiante');
+Route::get('/lista_titulados', [TituladoController::class, 'listar_titulados'])->name('titulados');
+Route::get('/lista_actas', [ActaController::class, 'listar_actas'])->name('actas');
+
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root']);
 

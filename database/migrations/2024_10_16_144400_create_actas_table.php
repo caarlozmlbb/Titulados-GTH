@@ -21,15 +21,16 @@ return new class extends Migration
             $table->integer('calificacion_total')->nullable();
             $table->string('calificacion_literal', 50)->nullable();
             $table->string('valoracion', 50)->nullable();
+
             $table->string('titulo', 255)->nullable();
             $table->unsignedBigInteger('estudiante_id')->nullable();
-            $table->unsignedBigInteger('calificacion_id')->nullable();
+            // $table->unsignedBigInteger('calificacion_id')->nullable();
 
             $table->foreign('modalidad_id')->references('id_modalidad')->on('modalidades_titulacion');
             $table->foreign('tutor_acta_id')->references('id_tutor_acta')->on('tutores_acta');
             $table->foreign('tribunal_acta_id')->references('id_tribunal_acta')->on('tribunales_acta');
             $table->foreign('estudiante_id')->references('id_estudiante')->on('estudiantes');
-            $table->foreign('calificacion_id')->references('id_calificacion')->on('calificaciones_detalle');
+            // $table->foreign('calificacion_id')->references('id_calificacion')->on('calificaciones_detalle');
 
             $table->timestamps();
         });
