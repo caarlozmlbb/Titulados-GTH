@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\ModalidadController;
 use App\Http\Controllers\TituladoController;
-use App\Models\Modalidad;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +24,18 @@ Auth::routes();
 Route::get('/vista_modalidad', [ModalidadController::class, 'vista_modalidad'])->name('modalidad');
 /*Rutas carlos */
 Route::get('/calificacion_detallada', [CalificacionController::class, 'listar_calificaciones'])->name('calificacion');
-Route::get('/buscar-estudiante', [CalificacionController::class, 'buscarEstudiante'])->name('buscar.estudiante');
+Route::get('/buscar-estudiante', [CalificacionController::class, 'buscarEstudiante'])->name('buscarEstudiante');
+
 Route::get('/lista_titulados', [TituladoController::class, 'listar_titulados'])->name('titulados');
 Route::get('/lista_actas', [ActaController::class, 'listar_actas'])->name('actas');
+Route::get('/examendegrado', [ActaController::class, 'listar_examen_grado'])->name('examenGrado');
+Route::get('/excelencia', [ActaController::class, 'listar_excelencia_academica'])->name('excelenciaAcademica');
+Route::get('/proyecto', [ActaController::class, 'listar_proyecto'])->name('proyecto');
+Route::get('/tesis', [ActaController::class, 'listar_tesis'])->name('tesis');
+Route::get('/tecnico_superior', [ActaController::class, 'listar_tecnico_superior'])->name('tecnicoSuperior');
+Route::get('/tecnico_medio', [ActaController::class, 'listar_tecnico_medio'])->name('tecnicoMedio');
+Route::get('/trabajo_dirigido', [ActaController::class, 'listar_trabajo_dirigido'])->name('trabajo');
+Route::get('/crear-acta', [CalificacionController::class, 'crear_acta'])->name('crear-acta');
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root']);

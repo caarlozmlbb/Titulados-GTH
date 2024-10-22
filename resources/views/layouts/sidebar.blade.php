@@ -5,19 +5,19 @@
     <div class="navbar-brand-box">
         <a href="{{ url('index') }}" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ URL::asset('/assets/images/logo-sm.png') }}" alt="" height="22">
+                <img src="{{ URL::asset('/assets/images/logo-sm.png') }}" alt="" height="37">
             </span>
             <span class="logo-lg">
-                <img src="{{ URL::asset('/assets/images/logo-dark.png') }}" alt="" height="20">
+                <img src="{{ URL::asset('/assets/images/logo-dark.png') }}" alt="" height="35">
             </span>
         </a>
 
         <a href="{{ url('index') }}" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ URL::asset('/assets/images/logo-sm.png') }}" alt="" height="22">
+                <img src="{{ URL::asset('/assets/images/logo-sm.png') }}" alt="" height="37">
             </span>
             <span class="logo-lg">
-                <img src="{{ URL::asset('/assets/images/logo-light.png') }}" alt="" height="20">
+                <img src="{{ URL::asset('/assets/images/logo-light.png') }}" alt="" height="35">
             </span>
         </a>
     </div>
@@ -61,17 +61,17 @@
                         <span>@lang('Modalidad Egreso')</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('modalidad')}}">@lang('Trabajo Dirigido')</a></li>
-                        <li><a href="{{route('modalidad')}}">@lang('Examen de Grado')</a></li>
-                        <li><a href="{{route('modalidad')}}">@lang('Execelencia Academica')</a></li>
-                        <li><a href="{{route('modalidad')}}">@lang('Proyecto de Grado')</a></li>
-                        <li><a href="{{route('modalidad')}}">@lang('Tesis de Grado')</a></li>
-                        <li><a href="{{route('modalidad')}}">@lang('Técnico Superior')</a></li>
-                        <li><a href="{{route('modalidad')}}">@lang('Técnico Medio')</a></li>
+                        <li><a href="{{route('trabajo')}}">@lang('Trabajo Dirigido')</a></li>
+                        <li><a href="{{route('examenGrado')}}">@lang('Examen de Grado')</a></li>
+                        <li><a href="{{route('excelenciaAcademica')}}">@lang('Execelencia Academica')</a></li>
+                        <li><a href="{{route('proyecto')}}">@lang('Proyecto de Grado')</a></li>
+                        <li><a href="{{route('tesis')}}">@lang('Tesis de Grado')</a></li>
+                        <li><a href="{{route('tecnicoSuperior')}}">@lang('Técnico Superior')</a></li>
+                        <li><a href="{{route('tecnicoMedio')}}">@lang('Técnico Medio')</a></li>
                         <li><a href="">@lang('Tutores')</a></li>
                         <li><a href="ecommerce-product-detail">@lang('Tribunales')</a></li>
                     </ul>
-                </li> 
+                </li>
 
 
                 <li class="menu-title">@lang('GESTIÓN DE TITULACIÓN')</li>
@@ -83,7 +83,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('titulados') }}">@lang('Listado de Titulados')</a></li>
-                        <li><a href="{{route('actas')}}">@lang('Actas de Defensa')</a></li>
+                        <li><a href="{{ route('crear-acta') }}">@lang('Crear Acta')</a></li>
                         <li><a href="{{route('calificacion')}}">@lang('Calificaciones Detalladas')</a></li>
                     </ul>
                 </li>

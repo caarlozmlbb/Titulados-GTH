@@ -13,12 +13,25 @@
         @endslot
     @endcomponent
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
+    <div class="row align-items-center mt-4">
+        <!-- Cuadro para el Estudiante Seleccionado -->
+        <div class="col-lg-4 col-md-3 mb-3">
+            <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h4 class="card-title">Buscador Estudiantes</h4>
-                    <form method>
+                    <i class="fas fa-user-graduate fa-3x text-warning mt-2"></i>
+                    <h5 class="card-title text-primary">Estudiante Seleccionado</h5>
+                    <p class="card-text" id="studentName">Nombre del Estudiante</p>
+                    <p class="card-text text-success" id="studentCarnet">Carnet: XXXXXX</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buscador Estudiantes -->
+        <div class="col-lg-8 col-md-8 mb-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h4 class="card-title text-primary">Buscador Estudiantes</h4>
+                    <form method="get">
                         <div class="row align-items-end">
                             <!-- Columna para el Seleccionar -->
                             <div class="col-lg-4 col-md-4 mb-3">
@@ -36,12 +49,13 @@
                             </div>
                             <!-- Columna para el campo de búsqueda -->
                             <div class="col-lg-6 col-md-6 mb-3">
-                                <label for="example-search-input" class="form-label">Numero de carnet</label>
-                                <input class="form-control" type="search" placeholder="Carnet Estudiante..." id="example-search-input">
+                                <label for="carnetInput" class="form-label">Número de carnet</label>
+                                <input class="form-control" type="search" placeholder="Carnet Estudiante..."
+                                    id="carnetInput">
                             </div>
                             <!-- Columna para el botón -->
                             <div class="col-lg-2 col-md-2 mb-3">
-                                <button type="button" class="btn btn-outline-primary waves-effect waves-light">Buscar</button>
+                                <button type="button" class="btn btn-outline-primary w-100">Buscar</button>
                             </div>
                         </div>
                     </form>
@@ -50,24 +64,24 @@
         </div>
     </div>
 
+
+
     <div class="row">
-        <div class="col-12">
+        <div class="col-lg-12 mb-4">
             <div class="card">
                 <div class="card-body">
-
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div>
-                            <h4 class="card-title">Lista de Calificaciones</h4>
-                            <p class="card-title-desc">A continuación se muestran las calificaciones registradas.</p>
+                            <h4 class="card-title">Resultados de Búsqueda</h4>
                         </div>
                         <div>
                             <!-- Botón para abrir el modal -->
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCalificacionModal">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#addCalificacionModal">
                                 <i class="fas fa-plus"></i> Agregar Nueva Calificación
                             </button>
                         </div>
                     </div>
-
                     <div class="table-responsive">
                         <table class="table table-editable table-nowrap align-middle table-edits">
                             <thead>
@@ -103,7 +117,8 @@
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                             <!-- Botón para Actualizar -->
-                                            <a href="#" class="btn btn-outline-success btn-sm update" title="Actualizar">
+                                            <a href="#" class="btn btn-outline-success btn-sm update"
+                                                title="Actualizar">
                                                 <i class="fas fa-sync-alt"></i>
                                             </a>
                                         </td>
@@ -112,14 +127,14 @@
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
 
     <!-- Modal para Agregar Nueva Calificación -->
-    <div class="modal fade" id="addCalificacionModal" tabindex="-1" aria-labelledby="addCalificacionModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addCalificacionModal" tabindex="-1" aria-labelledby="addCalificacionModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -147,11 +162,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="calificacionLiteral" class="form-label">Calificación Literal</label>
-                            <input type="text" class="form-control" id="calificacionLiteral" placeholder="Ej. Ochenta y cinco">
+                            <input type="text" class="form-control" id="calificacionLiteral"
+                                placeholder="Ej. Ochenta y cinco">
                         </div>
                         <div class="mb-3">
                             <label for="calificacionObservaciones" class="form-label">Observaciones</label>
-                            <textarea class="form-control" id="calificacionObservaciones" rows="3" placeholder="Ingrese observaciones adicionales"></textarea>
+                            <textarea class="form-control" id="calificacionObservaciones" rows="3"
+                                placeholder="Ingrese observaciones adicionales"></textarea>
                         </div>
                     </form>
                 </div>

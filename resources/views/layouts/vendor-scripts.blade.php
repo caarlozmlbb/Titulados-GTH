@@ -7,9 +7,10 @@
  <script src="{{ URL::asset('/assets/libs/waypoints/waypoints.min.js')}}"></script>
  <script src="{{ URL::asset('/assets/libs/jquery-counterup/jquery-counterup.min.js')}}"></script>
 
+
  @yield('script')
 
  <!-- App js -->
  <script src="{{ URL::asset('/assets/js/app.min.js')}}"></script>
- 
+
  @yield('script-bottom')

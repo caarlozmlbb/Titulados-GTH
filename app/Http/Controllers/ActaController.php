@@ -3,64 +3,130 @@
 namespace App\Http\Controllers;
 
 use App\Models\Acta;
+use App\Models\Estudiante;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ActaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function listar_actas()
     {
-        $actas = Acta::all();
-        return view('gestion.acta.acta',['actas' => $actas]);
+
+        $actas = DB::table('actas as a')
+            ->join('estudiantes as es', 'es.id_estudiante', '=', 'a.estudiante_id')
+            ->select('a.*', 'es.*') // Selecciona las columnas que necesitas
+            ->get();
+
+        return view('gestion.acta.acta', ['actas' => $actas]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function listar_trabajo_dirigido()
+    {
+        $actas = DB::table('actas as a')
+            ->join('estudiantes as es', 'es.id_estudiante', '=', 'a.estudiante_id')
+            ->select('a.*', 'es.*')
+            ->where('a.modalidad_id',1)
+            ->get();
+
+        return view('gestion.acta.trabajo', ['actas' => $actas]);
+    }
+
+
+    public function listar_examen_grado()
+    {
+        $actas = DB::table('actas as a')
+            ->join('estudiantes as es', 'es.id_estudiante', '=', 'a.estudiante_id')
+            ->select('a.*', 'es.*')
+            ->where('a.modalidad_id',2)
+            ->get();
+
+        return view('gestion.acta.examenGrado', ['actas' => $actas]);
+    }
+
+    public function listar_excelencia_academica()
+    {
+        $actas = DB::table('actas as a')
+            ->join('estudiantes as es', 'es.id_estudiante', '=', 'a.estudiante_id')
+            ->select('a.*', 'es.*')
+            ->where('a.modalidad_id',3)
+            ->get();
+
+        return view('gestion.acta.excelencia', ['actas' => $actas]);
+    }
+
+    public function listar_proyecto()
+    {
+        $actas = DB::table('actas as a')
+            ->join('estudiantes as es', 'es.id_estudiante', '=', 'a.estudiante_id')
+            ->select('a.*', 'es.*')
+            ->where('a.modalidad_id',4)
+            ->get();
+
+        return view('gestion.acta.proyecto', ['actas' => $actas]);
+    }
+
+    public function listar_tesis()
+    {
+        $actas = DB::table('actas as a')
+            ->join('estudiantes as es', 'es.id_estudiante', '=', 'a.estudiante_id')
+            ->select('a.*', 'es.*')
+            ->where('a.modalidad_id',5)
+            ->get();
+
+        return view('gestion.acta.tesis', ['actas' => $actas]);
+    }
+
+    public function listar_tecnico_superior()
+    {
+        $actas = DB::table('actas as a')
+            ->join('estudiantes as es', 'es.id_estudiante', '=', 'a.estudiante_id')
+            ->select('a.*', 'es.*')
+            ->where('a.modalidad_id',6)
+            ->get();
+
+        return view('gestion.acta.tecnicoSuperior', ['actas' => $actas]);
+    }
+
+
+    public function listar_tecnico_medio()
+    {
+        $actas = DB::table('actas as a')
+            ->join('estudiantes as es', 'es.id_estudiante', '=', 'a.estudiante_id')
+            ->select('a.*', 'es.*')
+            ->where('a.modalidad_id',6)
+            ->get();
+
+        return view('gestion.acta.tecnicoMedio', ['actas' => $actas]);
+    }
+
     public function create()
     {
-        //
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Acta $acta)
     {
-        //
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Acta $acta)
     {
-        //
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Acta $acta)
     {
-        //
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Acta $acta)
     {
-        //
+
     }
 }

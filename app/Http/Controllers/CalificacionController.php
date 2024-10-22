@@ -15,25 +15,26 @@ class CalificacionController extends Controller
         return view('gestion.calificaciones.calificacion_detalle',['calificaciones' => $calificaciones]);
     }
 
-    public function buscarEstudiante(Request $request){
-        $ci = $request->input('ci');
-        $estudiante = Estudiante::where('ci',$ci)->first();
+    public function buscarEstudiante(Request $request)
+    {
+        $carnet = $request->input('ci');
+        $estudiante = Estudiante::where('ci', $carnet)->first();
 
-        if($estudiante){
+        if ($estudiante) {
             return response()->json([
                 'success' => true,
                 'nombre' => $estudiante->nombre,
                 'paterno' => $estudiante->paterno,
-                'materno' => $estudiante->materno
+                'materno' => $estudiante->materno,
             ]);
-        }else{
-            return response()->json(['success' => false, 'message'=>'Estudiante no encontrado']);
+        } else {
+            return response()->json(['success' => false]);
         }
     }
 
-    public function create()
+    public function crear_acta()
     {
-        //
+        return view('gestion.acta.acta');
     }
 
     public function store(Request $request)
