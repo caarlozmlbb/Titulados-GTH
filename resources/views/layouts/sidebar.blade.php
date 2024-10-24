@@ -68,8 +68,8 @@
                         <li><a href="{{route('tesis')}}">@lang('Tesis de Grado')</a></li>
                         <li><a href="{{route('tecnicoSuperior')}}">@lang('Técnico Superior')</a></li>
                         <li><a href="{{route('tecnicoMedio')}}">@lang('Técnico Medio')</a></li>
-                        <li><a href="">@lang('Tutores')</a></li>
-                        <li><a href="ecommerce-product-detail">@lang('Tribunales')</a></li>
+                        <li><a href="{{route('modalidades.index')}}">@lang('Modalidades')</a></li>
+                        {{-- <li><a href="ecommerce-product-detail">@lang('Tribunales')</a></li> --}}
                     </ul>
                 </li>
 

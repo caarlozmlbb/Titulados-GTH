@@ -9,8 +9,8 @@
                 <div class="col-lg-12">
                     <div class="text-center">
                         <a href="{{ url('index') }}" class="mb-5 d-block auth-logo">
-                            <img src="{{ URL::asset('/assets/images/logo-dark.png') }}" alt="" height="22" class="logo logo-dark">
-                            <img src="{{ URL::asset('/assets/images/logo-light.png') }}" alt="" height="22" class="logo logo-light">
+                            <img src="{{ URL::asset('/assets/images/logo-dark.png') }}" alt="" height="40" class="logo logo-dark">
+                            <img src="{{ URL::asset('/assets/images/logo-light.png') }}" alt="" height="40" class="logo logo-light">
                         </a>
                     </div>
                 </div>
@@ -22,26 +22,26 @@
                         <div class="card-body p-4">
 
                             <div class="text-center mt-2">
-                                <h5 class="text-primary">Register Account</h5>
-                                <p class="text-muted">Get your free Minible account now.</p>
+                                <h5 class="text-primary">Registrar Cuenta</h5>
+                                <p class="text-muted">Sistema para el Control y Seguimiento de Modalidades de Titulación</p>
                             </div>
                             <div class="p-2 mt-4">
                                 <form action="{{ url('index') }}">
 
                                     <div class="mb-3">
                                         <label class="form-label" for="useremail">Email</label>
-                                        <input type="email" class="form-control" id="useremail" placeholder="Enter email">
+                                        <input type="email" class="form-control" id="useremail" placeholder="Introduzca su email">
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label" for="username">Username</label>
-                                        <input type="text" class="form-control" id="username" placeholder="Enter username">
+                                        <label class="form-label" for="username">Nombre</label>
+                                        <input type="text" class="form-control" id="username" placeholder="Introduzca su nombre">
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label" for="userpassword">Password</label>
+                                        <label class="form-label" for="userpassword">Contraseña</label>
                                         <input type="password" class="form-control" id="userpassword"
-                                            placeholder="Enter password">
+                                            placeholder="Introduzca una contraseña">
                                     </div>
 
                                     <div class="form-check">
@@ -85,7 +85,7 @@
                                     </div>
 
                                     <div class="mt-4 text-center">
-                                        <p class="text-muted mb-0">Already have an account ? <a href="auth-login"
+                                        <p class="text-muted mb-0">¿Ya tienes una cuenta? <a href="auth-login"
                                                 class="fw-medium text-primary"> Login</a></p>
                                     </div>
                                 </form>
