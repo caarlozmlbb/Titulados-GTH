@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Calificacion;
 use App\Models\Estudiante;
+use App\Models\Tutor;
+use App\Models\Docente;
+use App\Models\Acta;
+use App\Models\Modalidad;
 use Illuminate\Http\Request;
 
 class CalificacionController extends Controller
@@ -26,15 +30,45 @@ class CalificacionController extends Controller
                 'nombre' => $estudiante->nombre,
                 'paterno' => $estudiante->paterno,
                 'materno' => $estudiante->materno,
+                'id_estudiante' => $estudiante->id_estudiante,
             ]);
         } else {
             return response()->json(['success' => false]);
         }
     }
 
-    public function crear_acta()
+    public function crear_acta(Request $request)
     {
-        return view('gestion.acta.acta');
+        $id_estudiante = $request->input('id_estudiante');
+        $id_modalidad = $request->input('id_modalidad');
+
+        $modalidad = Modalidad::where('id_modalidad', $id_modalidad)->first();
+
+        $estudiante = Estudiante::where('id_estudiante', $id_estudiante)->first();
+        $acta = Acta::where('estudiante_id', $id_estudiante)->first(); // Cambiar 'actas' a 'acta' y usar ->first() para obtener un único registro
+        $docentes = Docente::all();
+
+        // Verificar si el estudiante ya tiene un acta
+        if ($acta) {
+            // Si ya tiene un acta, mostrar la vista con el título existente y no permitir crear uno nuevo
+            return view('gestion.acta.acta', compact(
+                'id_estudiante',
+                'estudiante',
+                'docentes',
+                'id_modalidad',
+                'modalidad',
+                'acta' // Pasar el acta existente
+            ));
+        } else {
+            // Si no tiene un acta, permitir crear uno nuevo
+            return view('gestion.acta.acta', compact(
+                'id_estudiante',
+                'estudiante',
+                'docentes',
+                'id_modalidad',
+                'modalidad',
+            ));
+        }
     }
 
     public function store(Request $request)
