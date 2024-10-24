@@ -9,22 +9,38 @@
 
 @section('content')
     @component('common-components.breadcrumb')
-        @slot('pagetitle') Tables @endslot
-        @slot('title') Tesis de Grado @endslot
+        @slot('pagetitle')
+            Tables
+        @endslot
+        @slot('title')
+            Trabajo dirigido
+        @endslot
     @endcomponent
 
     <div class="row align-items-center mt-4">
-        <!-- Cuadro para el Estudiante Seleccionado -->
+
         <div class="col-lg-4 col-md-3 mb-3">
             <div class="card text-center shadow-sm border-0 h-100">
                 <div class="card-body">
                     <i class="fas fa-user-graduate fa-3x text-warning"></i>
                     <h5 class="card-title text-primary">Estudiante Seleccionado</h5>
                     <p class="card-text" id="studentName">Nombre del Estudiante</p>
-                    <p class="card-text text-success" id="studentCarnet">Carnet: XXXXXX</p>
+                    <div class="d-flex justify-content-center align-items-center">
+
+                        <form action="{{ route('crear-acta') }}" method="GET" class="ml-4">
+                            @csrf
+                            <p class="card-text text-success mb-0" id="studentCarnet" name="carnet">Carnet: XXXXXX</p>
+                            <input type="text" class="form-control" id="id_estudiante" name="id_estudiante" hidden>
+                            <input type="text" class="form-control" id="id_modalidad" name="id_modalidad" value="{{$id_modalidad->id_modalidad}}" hidden>
+                            <button type="submit" class="btn btn-primary btn-sm" href="">
+                                <i class="fas fa-plus"></i> Crear Acta
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+
         <div class="col-lg-8 col-md-8 mb-3">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
@@ -44,20 +60,13 @@
                                     id="btnBuscar">Buscar</button>
                             </div>
 
-
                             <!-- Campo para mostrar el nombre del estudiante -->
                             <div class="col-lg-4 col-md-4 mb-3">
                                 <label for="nombre-estudiante-input" class="form-label">Nombre del Estudiante</label>
                                 <input type="text" class="form-control" id="nombre-estudiante-input"
                                     name="nombre-estudiante-input" readonly>
                             </div>
-                            <div class="col-lg-2 col-md-4 mb-3">
-                                <!-- Botón para abrir el modal -->
-                                <button type="submit" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#addCalificacionModal" href="{{route('actas')}}">
-                                    <i class="fas fa-plus"></i> Crear Acta
-                                </button>
-                            </div>
+
                             @if (session('error'))
                                 <div id="mensaje" class="text-danger mt-2">{{ session('error') }}</div>
                             @elseif (session('success'))
@@ -92,6 +101,7 @@
                         <thead>
                             <tr>
                                 <th>Nombre estudiante</th>
+                                <th>Carnet</th>
                                 <th>id_actaMaria</th>
                                 <th>modalidad id</th>
                                 <th>tutor acta id</th>
@@ -114,8 +124,9 @@
                             @foreach ($actas as $acta)
                                 <tr>
                                     <td>{{ $acta->nombre }}</td>
-                                    <td >{{ $acta->id_acta }}</td>
-                                    <td >{{ $acta->modalidad_id }}</td>
+                                    <td>{{ $acta->ci }}</td>
+                                    <td>{{ $acta->id_acta }}</td>
+                                    <td>{{ $acta->modalidad_id }}</td>
                                     <td>{{ $acta->tutor_acta_id }}</td>
                                     <td>{{ $acta->tribunal_acta_id }}</td>
                                     <td>{{ $acta->num_resolucion }}</td>
@@ -138,8 +149,7 @@
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                         <!-- Botón para Actualizar -->
-                                        <a href="#" class="btn btn-outline-success btn-sm update"
-                                            title="Actualizar">
+                                        <a href="#" class="btn btn-outline-success btn-sm update" title="Actualizar">
                                             <i class="fas fa-sync-alt"></i>
                                         </a>
                                     </td>
@@ -151,8 +161,6 @@
             </div>
         </div>
     </div>
-
-
 @endsection
 @section('script')
     <script src="{{ URL::asset('/assets/libs/datatables/datatables.min.js') }}"></script>
@@ -181,16 +189,23 @@
                                 var nombreCompleto =
                                     `${response.nombre} ${response.paterno} ${response.materno}`;
                                 $('#nombre-estudiante-input').val(nombreCompleto);
-                                $('#studentName').text(nombreCompleto); // Actualizar el nombre en el div de "Estudiante Seleccionado"
-                                $('#studentCarnet').text(`Carnet: ${carnet}`); // Actualizar el carnet en el div de "Estudiante Seleccionado"
+                                $('#id_estudiante').val(response.id_estudiante);
+                                $('#studentName').text(
+                                nombreCompleto); // Actualizar el nombre en el div de "Estudiante Seleccionado"
+                                $('#studentCarnet').text(
+                                `Carnet: ${carnet}`); // Actualizar el carnet en el div de "Estudiante Seleccionado"
                                 $('#mensajeexito').text('Número de carnet válido').show();
                                 $('#mensaje').hide(); // Ocultar mensaje de error
                             } else {
-                                $('#mensaje').text('No encontró al estudiante').show(); // Mensaje cuando no se encuentra
+                                $('#mensaje').text('No encontró al estudiante')
+                            .show(); // Mensaje cuando no se encuentra
                                 $('#mensajeexito').hide(); // Ocultar mensaje de éxito
                                 $('#nombre-estudiante-input').val('');
-                                $('#studentName').text('Nombre del Estudiante'); // Restablecer el valor por defecto
-                                $('#studentCarnet').text('Carnet: XXXXXX'); // Restablecer el valor por defecto
+                                $('#id_estudiante').val('');
+                                $('#studentName').text(
+                                'Nombre del Estudiante'); // Restablecer el valor por defecto
+                                $('#studentCarnet').text(
+                                'Carnet: XXXXXX'); // Restablecer el valor por defecto
                             }
                         },
                         error: function(xhr, status, error) {

@@ -1,39 +1,50 @@
 @extends('layouts.master')
 @section('title')
-    @lang('translation.Chat')
+    @lang('translation.Datatables')
+@endsection
+@section('css')
+    <!-- DataTables -->
+    <link href="{{ URL::asset('/assets/libs/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
     @component('common-components.breadcrumb')
         @slot('pagetitle')
-            Apps
+            Tables
         @endslot
         @slot('title')
             Técnico Medio
         @endslot
     @endcomponent
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
+    <div class="row align-items-center mt-4">
+
+        <div class="col-lg-4 col-md-3 mb-3">
+            <div class="card text-center shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <i class="fas fa-user-graduate fa-3x text-warning"></i>
+                    <h5 class="card-title text-primary">Estudiante Seleccionado</h5>
+                    <p class="card-text" id="studentName">Nombre del Estudiante</p>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <p class="card-text text-success mb-0" id="studentCarnet">Carnet: XXXXXX</p>
+                        <form action="{{ route('crear-acta') }}" method="POST" class="ml-4">
+                            @csrf
+                            <input type="text" class="form-control" id="id_estudiante" name="id_estudiante" hidden>
+                            <button type="submit" class="btn btn-primary btn-sm" href="">
+                                <i class="fas fa-plus"></i> Crear Acta
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8 col-md-8 mb-3">
+            <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
                     <h4 class="card-title">Buscar de Estudiantes</h4>
                     <form method="GET">
                         <div class="row align-items-end">
-                            {{-- <!-- Columna para el Seleccionar -->
-                            <div class="col-lg-3 col-md-4 mb-3">
-                                <label class="form-label">Seleccionar Modalidad</label>
-                                <select class="form-control select2-search-disable">
-                                    <option>Seleccionar</option>
-                                    <optgroup label="Modalidades">
-                                        <option value="Academico">Trabajo Dirigido</option>
-                                        <option value="Inscripcion">Examen de Grado</option>
-                                        <option value="Condiciones">Excelencia Académica</option>
-                                        <option value="Condiciones">Proyecto de Grado</option>
-                                        <option value="Condiciones">Tesis de Grado</option>
-                                    </optgroup>
-                                </select>
-                            </div> --}}
 
                             <!-- Campo para ingresar el Número de Carnet -->
                             <div class="col-lg-3 col-md-4 mb-3">
@@ -54,6 +65,8 @@
                                 <input type="text" class="form-control" id="nombre-estudiante-input"
                                     name="nombre-estudiante-input" readonly>
                             </div>
+
+
                             @if (session('error'))
                                 <div id="mensaje" class="text-danger mt-2">{{ session('error') }}</div>
                             @elseif (session('success'))
@@ -69,76 +82,22 @@
         </div>
     </div>
 
-@section('script')
-
-    <script>
-        $(document).ready(function() {
-            $('#btnBuscar').on('click', function(e) {
-                e.preventDefault(); // Evita que el formulario se envíe de forma tradicional
-
-                var carnet = $('#carnet').val(); // Captura el valor del campo de entrada
-                console.log('Pasa aquí'); // Asegúrate de que esto se imprima en la consola
-
-                if (carnet.length > 0) {
-                    $.ajax({
-                        url: '/buscar-estudiante',
-                        method: 'GET',
-                        data: {
-                            ci: carnet // Enviar el carnet como parámetro
-                        },
-                        success: function(response) {
-                            console.log('Respuesta del servidor:',
-                                response); // Imprime la respuesta
-                            if (response.success) {
-                                var nombreCompleto =
-                                    `${response.nombre} ${response.paterno} ${response.materno}`;
-                                $('#nombre-estudiante-input').val(nombreCompleto);
-                                $('#mensajeexito').text('Número de carnet válido').show();
-                                $('#mensaje').hide(); // Ocultar mensaje de error
-                            } else {
-                                $('#mensaje').text('No encontró al estudiante')
-                                    .show(); // Mensaje cuando no se encuentra
-                                $('#mensajeexito').hide(); // Ocultar mensaje de éxito
-                                $('#nombre-estudiante-input').val('');
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error en la solicitud:', error); // Log del error
-                            alert('Error en la solicitud.');
-                        }
-                    });
-                } else {
-                    $('#nombre-estudiante-input').val('');
-                    $('#mensaje').hide();
-                    $('#mensajeexito').hide();
-                }
-            });
-        });
-    </script>
-@endsection
 
 
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
 
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <h4 class="card-title">Lista de Estudiantes TÉCNICO MEDIO</h4>
-                        <p class="card-title-desc">A continuación se muestran las calificaciones registradas.</p>
-                    </div>
-                    <div>
-                        <!-- Botón para abrir el modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#addCalificacionModal">
-                            <i class="fas fa-plus"></i> Agregar Nueva Calificación
-                        </button>
-                    </div>
-                </div>
+                    <h4 class="card-title">Buttons example</h4>
+                    <p class="card-title-desc">The Buttons extension for DataTables
+                        provides a common set of options, API methods and styling to display
+                        buttons on a page that will interact with a DataTable. The core library
+                        provides the based framework upon which plug-ins can built.
+                    </p>
 
-                <div class="table-responsive">
-                    <table class="table table-editable table-nowrap align-middle table-edits">
+                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                             <tr>
                                 <th>Nombre estudiante</th>
@@ -158,12 +117,14 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
+
+
                         <tbody>
                             @foreach ($actas as $acta)
                                 <tr>
                                     <td>{{ $acta->nombre }}</td>
-                                    <td style="width: 80px">{{ $acta->id_acta }}</td>
-                                    <td style="width: 80px">{{ $acta->modalidad_id }}</td>
+                                    <td>{{ $acta->id_acta }}</td>
+                                    <td>{{ $acta->modalidad_id }}</td>
                                     <td>{{ $acta->tutor_acta_id }}</td>
                                     <td>{{ $acta->tribunal_acta_id }}</td>
                                     <td>{{ $acta->num_resolucion }}</td>
@@ -186,8 +147,7 @@
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                         <!-- Botón para Actualizar -->
-                                        <a href="#" class="btn btn-outline-success btn-sm update"
-                                            title="Actualizar">
+                                        <a href="#" class="btn btn-outline-success btn-sm update" title="Actualizar">
                                             <i class="fas fa-sync-alt"></i>
                                         </a>
                                     </td>
@@ -196,60 +156,69 @@
                         </tbody>
                     </table>
                 </div>
-
-            </div>
-        </div>
-    </div> <!-- end col -->
-</div> <!-- end row -->
-
-<!-- Modal para Agregar Nueva Calificación -->
-<div class="modal fade" id="addCalificacionModal" tabindex="-1" aria-labelledby="addCalificacionModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addCalificacionModalLabel">Agregar Nueva Calificación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="tipoCalificacion" class="form-label">Tipo de Calificación</label>
-                        <select class="form-control" id="tipoCalificacion">
-                            <option value="Perfil">Perfil</option>
-                            <option value="Defensa Borrador">Defensa Borrador</option>
-                            <option value="Defensa Final">Defensa Final</option>
-                            <option value="Examen Escrito">Examen Escrito</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="calificacionFecha" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="calificacionFecha">
-                    </div>
-                    <div class="mb-3">
-                        <label for="calificacionValor" class="form-label">Calificación</label>
-                        <input type="number" class="form-control" id="calificacionValor" placeholder="Ej. 85">
-                    </div>
-                    <div class="mb-3">
-                        <label for="calificacionLiteral" class="form-label">Calificación Literal</label>
-                        <input type="text" class="form-control" id="calificacionLiteral"
-                            placeholder="Ej. Ochenta y cinco">
-                    </div>
-                    <div class="mb-3">
-                        <label for="calificacionObservaciones" class="form-label">Observaciones</label>
-                        <textarea class="form-control" id="calificacionObservaciones" rows="3"
-                            placeholder="Ingrese observaciones adicionales"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Guardar Calificación</button>
             </div>
         </div>
     </div>
-</div>
 @endsection
 @section('script')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ URL::asset('/assets/libs/datatables/datatables.min.js') }}"></script>
+    <script src="{{ URL::asset('/assets/libs/jszip/jszip.min.js') }}"></script>
+    <script src="{{ URL::asset('/assets/libs/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ URL::asset('/assets/js/pages/datatables.init.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#btnBuscar').on('click', function(e) {
+                e.preventDefault();
+
+                var carnet = $('#carnet').val(); // Captura el valor del campo de entrada
+                console.log('Pasa aquí'); // Asegúrate de que esto se imprima en la consola
+
+                if (carnet.length > 0) {
+                    $.ajax({
+                        url: '/buscar-estudiante',
+                        method: 'GET',
+                        data: {
+                            ci: carnet // Enviar el carnet como parámetro
+                        },
+                        success: function(response) {
+                            console.log('Respuesta del servidor:',
+                                response); // Imprime la respuesta
+                            if (response.success) {
+                                var nombreCompleto =
+                                    `${response.nombre} ${response.paterno} ${response.materno}`;
+                                $('#nombre-estudiante-input').val(nombreCompleto);
+                                $('#id_estudiante').val(response.id_estudiante);
+                                $('#studentName').text(
+                                nombreCompleto); // Actualizar el nombre en el div de "Estudiante Seleccionado"
+                                $('#studentCarnet').text(
+                                `Carnet: ${carnet}`); // Actualizar el carnet en el div de "Estudiante Seleccionado"
+                                $('#mensajeexito').text('Número de carnet válido').show();
+                                $('#mensaje').hide(); // Ocultar mensaje de error
+                            } else {
+                                $('#mensaje').text('No encontró al estudiante')
+                            .show(); // Mensaje cuando no se encuentra
+                                $('#mensajeexito').hide(); // Ocultar mensaje de éxito
+                                $('#nombre-estudiante-input').val('');
+                                $('#id_estudiante').val('');
+                                $('#studentName').text(
+                                'Nombre del Estudiante'); // Restablecer el valor por defecto
+                                $('#studentCarnet').text(
+                                'Carnet: XXXXXX'); // Restablecer el valor por defecto
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error en la solicitud:', error); // Log del error
+                            alert('Error en la solicitud.');
+                        }
+                    });
+                } else {
+                    $('#nombre-estudiante-input').val('');
+                    $('#studentName').text('Nombre del Estudiante'); // Restablecer el valor por defecto
+                    $('#studentCarnet').text('Carnet: XXXXXX'); // Restablecer el valor por defecto
+                    $('#mensaje').hide();
+                    $('#mensajeexito').hide();
+                }
+            });
+        });
+    </script>
 @endsection

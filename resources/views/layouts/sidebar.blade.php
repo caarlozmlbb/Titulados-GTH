@@ -83,7 +83,6 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('titulados') }}">@lang('Listado de Titulados')</a></li>
-                        <li><a href="{{ route('crear-acta') }}">@lang('Crear Acta')</a></li>
                         <li><a href="{{route('calificacion')}}">@lang('Calificaciones Detalladas')</a></li>
                     </ul>
                 </li>

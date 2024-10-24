@@ -35,7 +35,9 @@ Route::get('/tesis', [ActaController::class, 'listar_tesis'])->name('tesis');
 Route::get('/tecnico_superior', [ActaController::class, 'listar_tecnico_superior'])->name('tecnicoSuperior');
 Route::get('/tecnico_medio', [ActaController::class, 'listar_tecnico_medio'])->name('tecnicoMedio');
 Route::get('/trabajo_dirigido', [ActaController::class, 'listar_trabajo_dirigido'])->name('trabajo');
+// Route::post('/crear-acta', [CalificacionController::class, 'crear_acta'])->name('crear-acta');
 Route::get('/crear-acta', [CalificacionController::class, 'crear_acta'])->name('crear-acta');
+Route::post('/crear-acta/titulo',[ActaController::class, 'agregarTitulo'])->name('crear_acta_titulo');
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root']);
