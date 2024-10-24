@@ -93,7 +93,7 @@
                         <span>@lang('Tutores y Tribunales')</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{ route('modalidad') }}">@lang('Listado de Tutores')</a></li>
+                        <li><a href="{{ route('modalidades.index') }}">@lang('Listado de Tutores')</a></li>
                         <li><a href="ruta">@lang('Listado de Tribunales')</a></li>
                     </ul>
                 </li>

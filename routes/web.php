@@ -21,7 +21,8 @@ use App\Http\Controllers\TituladoController;
 
 
 Auth::routes();
-Route::resource('/vista_modalidad', [ModalidadController::class, 'index'])->names('modalidades');
+Route::resource('vista_modalidad', ModalidadController::class)->names('modalidades');
+
 /*Rutas carlos */
 Route::get('/calificacion_detallada', [CalificacionController::class, 'listar_calificaciones'])->name('calificacion');
 Route::get('/buscar-estudiante', [CalificacionController::class, 'buscarEstudiante'])->name('buscarEstudiante');
