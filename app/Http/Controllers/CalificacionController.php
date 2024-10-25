@@ -16,7 +16,7 @@ class CalificacionController extends Controller
     public function listar_calificaciones()
     {
         $calificaciones = Calificacion::all();
-        return view('gestion.calificaciones.calificacion_detalle',['calificaciones' => $calificaciones]);
+        return view('gestion.calificaciones.calificacion_detalle', ['calificaciones' => $calificaciones]);
     }
 
     public function buscarEstudiante(Request $request)
@@ -46,7 +46,12 @@ class CalificacionController extends Controller
 
         $estudiante = Estudiante::where('id_estudiante', $id_estudiante)->first();
         $acta = Acta::where('estudiante_id', $id_estudiante)->first(); // Cambiar 'actas' a 'acta' y usar ->first() para obtener un único registro
-        $docentes = Docente::all();
+        if ($acta) {
+            $docentes = Docente::all();
+            $calificaciones = Calificacion::where('acta_id', $acta->id_acta)->get(); // Añadido ->get()
+        } else {
+            $calificaciones = collect(); // Crear una colección vacía si no hay acta
+        }
 
         // Verificar si el estudiante ya tiene un acta
         if ($acta) {
@@ -57,7 +62,8 @@ class CalificacionController extends Controller
                 'docentes',
                 'id_modalidad',
                 'modalidad',
-                'acta' // Pasar el acta existente
+                'acta', // Pasar el acta existente
+                'calificaciones'
             ));
         } else {
             // Si no tiene un acta, permitir crear uno nuevo
@@ -67,32 +73,56 @@ class CalificacionController extends Controller
                 'docentes',
                 'id_modalidad',
                 'modalidad',
+                'calificaciones',
             ));
         }
     }
 
-    public function store(Request $request)
+    public function guardar_calificacion(Request $request)
     {
-        //
+        $request->validate([
+            'tipo_calificacion' => 'required|string',
+            'fecha' => 'required|date',
+            'calificacion' => 'required|integer',
+            'calificacion_literal' => 'required|string',
+            'valoraciones' => 'required|string',
+            'observaciones' => 'required|string',
+            'acta_id' => 'required|integer'
+        ]);
+
+        $calificacion = new Calificacion();
+
+        $calificacion->tipo_calificacion = $request->tipo_calificacion;
+        $calificacion->fecha = $request->fecha;
+        $calificacion->calificacion = $request->calificacion;
+        $calificacion->calificacion_literal = $request->calificacion_literal;
+        $calificacion->valoraciones = $request->valoraciones;
+        $calificacion->observaciones = $request->observaciones;
+        $calificacion->acta_id = $request->acta_id;
+        $calificacion->save();
+
+        return response()->json(['success' => true, 'message' => 'Calificación guardada exitosamente']);
     }
 
-    public function show(Calificacion $calificacion)
+    public function actualizar(Request $request, $id)
     {
-        //
+        $calificacion = Calificacion::findOrFail($id);
+        $calificacion->tipo_calificacion = $request->input('tipo_calificacion');
+        $calificacion->fecha = $request->input('fecha');
+        $calificacion->calificacion = $request->input('calificacion');
+        $calificacion->calificacion_literal = $request->input('calificacion_literal');
+        $calificacion->valoraciones = $request->input('valoraciones');
+        $calificacion->observaciones = $request->input('observaciones');
+        $calificacion->save();
+
+        return redirect()->back()->with('success', 'Calificación actualizada correctamente.');
     }
 
-    public function edit(Calificacion $calificacion)
+    public function eliminar($id)
     {
-        //
-    }
+        $calificacion = Calificacion::findOrFail($id);
+        $calificacion->delete();
 
-    public function update(Request $request, Calificacion $calificacion)
-    {
-        //
-    }
-
-    public function destroy(Calificacion $calificacion)
-    {
-        //
+        return redirect()->back()->with('success', 'Calificación eliminada correctamente.');
     }
 }

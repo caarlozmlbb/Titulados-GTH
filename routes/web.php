@@ -39,6 +39,13 @@ Route::get('/trabajo_dirigido', [ActaController::class, 'listar_trabajo_dirigido
 // Route::post('/crear-acta', [CalificacionController::class, 'crear_acta'])->name('crear-acta');
 Route::get('/crear-acta', [CalificacionController::class, 'crear_acta'])->name('crear-acta');
 Route::post('/crear-acta/titulo',[ActaController::class, 'agregarTitulo'])->name('crear_acta_titulo');
+Route::post('/actualizar-calificacion/{acta}', 'ActaController@actualizarCalificacion');
+Route::post('/calificaciones/guardar', [CalificacionController::class, 'guardar_calificacion'])->name('calificaciones.guardar');
+Route::put('/calificaciones/{id}', [CalificacionController::class, 'actualizar'])->name('calificaciones.actualizar');
+Route::delete('/calificaciones/{id}', [CalificacionController::class, 'eliminar'])->name('calificaciones.eliminar');
+Route::post('/acta/update/{id}', [ActaController::class, 'actualizarActaInformacion'])->name('acta.update');
+
+
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root']);

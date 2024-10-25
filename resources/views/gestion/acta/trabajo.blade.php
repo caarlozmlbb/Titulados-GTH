@@ -33,7 +33,7 @@
                             <input type="text" class="form-control" id="id_estudiante" name="id_estudiante" hidden>
                             <input type="text" class="form-control" id="id_modalidad" name="id_modalidad" value="{{$id_modalidad->id_modalidad}}" hidden>
                             <button type="submit" class="btn btn-primary btn-sm" href="">
-                                <i class="fas fa-plus"></i> Crear Acta
+                                <i class="fas fa-plus"></i> Editar Acta
                             </button>
                         </form>
                     </div>
