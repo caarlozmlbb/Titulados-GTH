@@ -13,7 +13,7 @@
             Tables
         @endslot
         @slot('title')
-            Tesis de Grado
+            Trabajo dirigido
         @endslot
     @endcomponent
 
@@ -26,10 +26,12 @@
                     <h5 class="card-title text-primary">Estudiante Seleccionado</h5>
                     <p class="card-text" id="studentName">Nombre del Estudiante</p>
                     <div class="d-flex justify-content-center align-items-center">
-                        <p class="card-text text-success mb-0" id="studentCarnet">Carnet: XXXXXX</p>
-                        <form action="{{ route('crear-acta') }}" method="POST" class="ml-4">
+
+                        <form action="{{ route('crear-acta') }}" method="GET" class="ml-4">
                             @csrf
+                            <p class="card-text text-success mb-0" id="studentCarnet" name="carnet">Carnet: XXXXXX</p>
                             <input type="text" class="form-control" id="id_estudiante" name="id_estudiante" hidden>
+                            <input type="text" class="form-control" id="id_modalidad" name="id_modalidad" value="{{$id_modalidad->id_modalidad}}" hidden>
                             <button type="submit" class="btn btn-primary btn-sm" href="">
                                 <i class="fas fa-plus"></i> Crear Acta
                             </button>
@@ -58,14 +60,12 @@
                                     id="btnBuscar">Buscar</button>
                             </div>
 
-
                             <!-- Campo para mostrar el nombre del estudiante -->
                             <div class="col-lg-4 col-md-4 mb-3">
                                 <label for="nombre-estudiante-input" class="form-label">Nombre del Estudiante</label>
                                 <input type="text" class="form-control" id="nombre-estudiante-input"
                                     name="nombre-estudiante-input" readonly>
                             </div>
-
 
                             @if (session('error'))
                                 <div id="mensaje" class="text-danger mt-2">{{ session('error') }}</div>
@@ -101,6 +101,7 @@
                         <thead>
                             <tr>
                                 <th>Nombre estudiante</th>
+                                <th>Carnet</th>
                                 <th>id_actaMaria</th>
                                 <th>modalidad id</th>
                                 <th>tutor acta id</th>
@@ -123,6 +124,7 @@
                             @foreach ($actas as $acta)
                                 <tr>
                                     <td>{{ $acta->nombre }}</td>
+                                    <td>{{ $acta->ci }}</td>
                                     <td>{{ $acta->id_acta }}</td>
                                     <td>{{ $acta->modalidad_id }}</td>
                                     <td>{{ $acta->tutor_acta_id }}</td>

@@ -13,7 +13,7 @@
             Tables
         @endslot
         @slot('title')
-            Examen de Grado
+            Trabajo dirigido
         @endslot
     @endcomponent
 

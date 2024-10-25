@@ -6,6 +6,7 @@ use App\Models\Acta;
 use App\Models\Estudiante;
 use App\Models\Docente;
 use App\Models\Modalidad;
+use App\Models\Calificacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -64,7 +65,12 @@ class ActaController extends Controller
             ->where('a.modalidad_id', 3)
             ->get();
 
-        return view('gestion.acta.excelencia', ['actas' => $actas]);
+        $id_modalidad = Modalidad::where('id_modalidad', 3)->first();
+
+        return view('gestion.acta.excelencia', [
+            'actas' => $actas,
+            'id_modalidad' => $id_modalidad,
+        ]);
     }
 
     public function listar_proyecto()
@@ -75,7 +81,12 @@ class ActaController extends Controller
             ->where('a.modalidad_id', 4)
             ->get();
 
-        return view('gestion.acta.proyecto', ['actas' => $actas]);
+        $id_modalidad = Modalidad::where('id_modalidad', 4)->first();
+
+        return view('gestion.acta.proyecto', [
+            'actas' => $actas,
+            'id_modalidad' => $id_modalidad,
+        ]);
     }
 
     public function listar_tesis()
@@ -86,7 +97,12 @@ class ActaController extends Controller
             ->where('a.modalidad_id', 5)
             ->get();
 
-        return view('gestion.acta.tesis', ['actas' => $actas]);
+        $id_modalidad = Modalidad::where('id_modalidad', 5)->first();
+
+        return view('gestion.acta.tesis', [
+            'actas' => $actas,
+            'id_modalidad' => $id_modalidad,
+        ]);
     }
 
     public function listar_tecnico_superior()
@@ -97,7 +113,12 @@ class ActaController extends Controller
             ->where('a.modalidad_id', 6)
             ->get();
 
-        return view('gestion.acta.tecnicoSuperior', ['actas' => $actas]);
+        $id_modalidad = Modalidad::where('id_modalidad', 6)->first();
+
+        return view('gestion.acta.tecnicoSuperior', [
+            'actas' => $actas,
+            'id_modalidad' => $id_modalidad,
+        ]);
     }
 
 
@@ -106,10 +127,15 @@ class ActaController extends Controller
         $actas = DB::table('actas as a')
             ->join('estudiantes as es', 'es.id_estudiante', '=', 'a.estudiante_id')
             ->select('a.*', 'es.*')
-            ->where('a.modalidad_id', 6)
+            ->where('a.modalidad_id', 7)
             ->get();
 
-        return view('gestion.acta.tecnicoMedio', ['actas' => $actas]);
+        $id_modalidad = Modalidad::where('id_modalidad', 7)->first();
+
+        return view('gestion.acta.tecnicoMedio', [
+            'actas' => $actas,
+            'id_modalidad' => $id_modalidad,
+        ]);
     }
 
     public function agregarTitulo(Request $request)
@@ -148,17 +174,42 @@ class ActaController extends Controller
         }
     }
 
+    public function actualizarCalificacion(Request $request, $actaId)
+    {
+        $request->validate([
+            'calificacion' => 'required|integer|min:0|max:100',
+        ]);
 
+        $acta = Acta::find($actaId);
+        if ($acta) {
+            // Aquí deberías encontrar el detalle de la calificación y actualizarla
+            $calificacionDetalle = Calificacion::where('acta_id', $actaId)->first();
+            if ($calificacionDetalle) {
+                $calificacionDetalle->calificacion = $request->calificacion;
+                $calificacionDetalle->save();
 
-    public function create() {}
+                return response()->json(['success' => true]);
+            }
+        }
 
-    public function store(Request $request) {}
+        return response()->json(['success' => false], 400);
+    }
 
-    public function show(Acta $acta) {}
+    public function actualizarActaInformacion(Request $request, $id)
+    {
+        // Validación
+        $request->validate([
+            'numero_resolucion' => 'required|string|max:255',
+            'lugar' => 'required|string|max:255',
+            'fecha_acta' => 'required|date',
+            'hora_comienzo' => 'required|date_format:H:i',
+            'hora_fin' => 'required|date_format:H:i',
+        ]);
 
-    public function edit(Acta $acta) {}
+        // Actualiza la información del acta
+        $acta = Acta::findOrFail($id);
+        $acta->update($request->all());
 
-    public function update(Request $request, Acta $acta) {}
-
-    public function destroy(Acta $acta) {}
+        return redirect()->route('crear-acta')->with('success', 'Información actualizada correctamente.');
+    }
 }
