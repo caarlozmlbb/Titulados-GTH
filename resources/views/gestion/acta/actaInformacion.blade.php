@@ -18,7 +18,7 @@
                     <tbody>
                         <tr>
                             <th>Número de Resolución</th>
-                            <td>{{ old('numero_resolucion', $acta->numero_resolucion ?? 'sin resolución') }}</td>
+                            <td>{{ old('num_resolucion', $acta->num_resolucion ?? 'sin resolución') }}</td>
                         </tr>
                         <tr>
                             <th>Lugar</th>
@@ -58,14 +58,14 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <label for="numero_resolucion" class="form-label">Número de
+                                                        <label for="num_resolucion" class="form-label">Número de
                                                             Resolución</label>
                                                         <input type="text"
-                                                            class="form-control @error('numero_resolucion') is-invalid @enderror"
-                                                            id="numero_resolucion" name="numero_resolucion"
-                                                            value="{{ old('numero_resolucion', $acta->numero_resolucion ?? 'sin resolucion') }}"
+                                                            class="form-control @error('num_resolucion') is-invalid @enderror"
+                                                            id="num_resolucion" name="num_resolucion"
+                                                            value="{{ old('num_resolucion', $acta->num_resolucion ?? 'sin resolucion') }}"
                                                             placeholder="Ingrese el número de resolución">
-                                                        @error('numero_resolucion')
+                                                        @error('num_resolucion')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
                                                             </div>

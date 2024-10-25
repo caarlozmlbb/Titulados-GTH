@@ -19,25 +19,19 @@ class ModalidadController extends Controller
         return redirect()->route('modalidades.index');
     }
 
-    // public function edit($id)
-    // {
-    //     $modalidad = Modalidad::findOrFail($id);
-    //     return response()->json($modalidad);
-    // }
+    public function update(Request $request, $id)
+    {
+        $request->validate(['nombre_modalidad' => 'required|string']);
+        $modalidad = Modalidad::findOrFail($id);
+        $modalidad->update($request->all());
+        return redirect()->route('modalidades.index');
+    }
 
-    // public function update(Request $request, $id)
-    // {
-    //     $request->validate(['nombre_modalidad' => 'required']);
-    //     $modalidad = Modalidad::findOrFail($id);
-    //     $modalidad->update($request->all());
-    //     return redirect()->route('gestion.modalidades.modalidades');
-    // }
-
-    // public function destroy($id)
-    // {
-    //     $modalidad = Modalidad::findOrFail($id);
-    //     $modalidad->delete();
-    //     return redirect()->route('gestion.modalidades.modalidade');
-    // }
+    public function destroy($id)
+    {
+        $modalidad = Modalidad::findOrFail($id);
+        $modalidad->delete();
+        return redirect()->route('modalidades.index');
+    }
 
 }

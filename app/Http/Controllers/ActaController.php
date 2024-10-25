@@ -199,7 +199,7 @@ class ActaController extends Controller
     {
         // Validación
         $request->validate([
-            'numero_resolucion' => 'required|string|max:255',
+            'num_resolucion' => 'required|string|max:255',
             'lugar' => 'required|string|max:255',
             'fecha_acta' => 'required|date',
             'hora_comienzo' => 'required|date_format:H:i',

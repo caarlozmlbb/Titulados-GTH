@@ -20,11 +20,13 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div>
                             <h4 class="card-title">Lista de Modalidades</h4>
-                            <p class="card-title-desc">A continuación se muestran las Modalidades de Titulación registrados.</p>
+                            <p class="card-title-desc">A continuación se muestran las Modalidades de Titulación registrados.
+                            </p>
                         </div>
                         <div>
                             <!-- Botón para abrir el modal -->
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModalidadModal">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#addModalidadModal">
                                 <i class="fas fa-plus"></i> Agregar Nueva Modalidad
                             </button>
                         </div>
@@ -40,41 +42,90 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            @php
+                                $contador = 1;
+                            @endphp
                                 @foreach ($modalidades as $modalidad)
                                     <tr>
-                                        <td>{{ $modalidad->id_modalidad }}</td>
+                                        <td>{{ $contador++ }}</td>
                                         <td>{{ $modalidad->nombre_modalidad }}</td>
                                         <td>
                                             <!-- Botón para Editar -->
-                                            <a href="#" class="btn btn-outline-primary btn-sm edit-modalidad" data-id="{{ $modalidad->id_modalidad }}" title="Editar">
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalidadModal">
-                                                <i class="fas fa-trash-alt"></i> Editar Modalidad
+                                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#editModalidadModal{{ $modalidad->id_modalidad }}" title="Editar">
+                                                <i class="fas fa-pencil-alt"></i> Editar
                                             </button>
 
                                             <!-- Botón para Eliminar -->
-                                            <a href="#" class="btn btn-outline-danger btn-sm delete-modalidad" data-id="{{ $modalidad->id_modalidad }}" title="Eliminar">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalidadModal">
-                                                <i class="fas fa-trash-alt"></i> Editar Modalidad
+                                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModalidadModal{{ $modalidad->id_modalidad }}" title="Eliminar">
+                                                <i class="fas fa-trash-alt"></i> Eliminar
                                             </button>
                                         </td>
                                     </tr>
+
+                                    <!-- Modal para Editar Modalidad -->
+                                    <div class="modal fade" id="editModalidadModal{{ $modalidad->id_modalidad }}" tabindex="-1"
+                                        aria-labelledby="editModalidadModalLabel{{ $modalidad->id_modalidad }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editModalidadModalLabel{{ $modalidad->id_modalidad }}">Editar Modalidad</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="editModalidadForm{{ $modalidad->id_modalidad }}" method="POST" action="{{ route('modalidades.update', $modalidad->id_modalidad) }}">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="mb-3">
+                                                            <label for="edit_nombre_modalidad" class="form-label">Nombre Modalidad</label>
+                                                            <input type="text" class="form-control" name="nombre_modalidad" value="{{ $modalidad->nombre_modalidad }}" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal para Confirmar Eliminación -->
+                                    <div class="modal fade" id="deleteModalidadModal{{ $modalidad->id_modalidad }}" tabindex="-1"
+                                        aria-labelledby="deleteModalidadModalLabel{{ $modalidad->id_modalidad }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalidadModalLabel{{ $modalidad->id_modalidad }}">Confirmar Eliminación</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    ¿Estás seguro de que deseas eliminar la modalidad <strong>{{ $modalidad->nombre_modalidad }}</strong>?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <form method="POST" action="{{ route('modalidades.destroy', $modalidad->id_modalidad) }}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Eliminar Modalidad</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
 
     <!-- Modal para Agregar Nueva Modalidad -->
-    <div class="modal fade" id="addModalidadModal" tabindex="-1" aria-labelledby="addModalidadModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addModalidadModal" tabindex="-1" aria-labelledby="addModalidadModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -99,7 +150,8 @@
     </div>
 
     <!-- Modal para Editar Modalidad -->
-    <div class="modal fade" id="editModalidadModal" tabindex="-1" aria-labelledby="editModalidadModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editModalidadModal" tabindex="-1" aria-labelledby="editModalidadModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -112,7 +164,8 @@
                         @method('PUT')
                         <div class="mb-3">
                             <label for="edit_nombre_modalidad" class="form-label">Nombre Modalidad</label>
-                            <input type="text" class="form-control" name="nombre_modalidad" required id="edit_nombre_modalidad">
+                            <input type="text" class="form-control" name="nombre_modalidad" required
+                                id="edit_nombre_modalidad">
                         </div>
                     </form>
                 </div>
@@ -129,42 +182,6 @@
         // Enviar el formulario al hacer clic en el botón "Guardar Modalidad"
         document.getElementById('guardarModalidad').addEventListener('click', function() {
             document.getElementById('modalidadForm').submit();
-        });
-
-        // Manejo de edición
-        $(document).on('click', '.edit-modalidad', function() {
-            let id = $(this).data('id');
-            $.get('/modalidades/' + id + '/edit', function(data) {
-                $('#edit_nombre_modalidad').val(data.nombre_modalidad);
-                $('#editModalidadForm').attr('action', '/modalidades/' + id);
-                $('#editModalidadModal').modal('show');
-            });
-        });
-
-        // Enviar el formulario de edición
-        $('#guardarEditModalidad').on('click', function() {
-            $('#editModalidadForm').submit();
-        });
-
-        // Manejo de eliminación
-        $('#eliminarModalidad').on('click', function() {
-            let id = $('#editModalidadForm').attr('action').split('/').pop();
-            if (confirm('¿Estás seguro de que deseas eliminar esta modalidad?')) {
-                $.ajax({
-                    url: '/modalidades/' + id,
-                    type: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function() {
-                        $('#editModalidadModal').modal('hide');
-                        location.reload();
-                    },
-                    error: function() {
-                        alert('Error al eliminar la modalidad. Inténtalo de nuevo.');
-                    }
-                });
-            }
         });
     </script>
 @endsection
