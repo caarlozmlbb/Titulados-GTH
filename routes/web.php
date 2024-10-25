@@ -65,5 +65,5 @@ Route::put('/update-password', [PasswordController::class, 'updatePassword'])->n
 Route::put('/update-info', [PasswordController::class, 'updateInfo'])->name('info.update');
 
 
-Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index']);
+// Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index']);
 

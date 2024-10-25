@@ -4,9 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ModifyTribunalesActaTable extends Migration
+return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
         Schema::table('tribunales_acta', function (Blueprint $table) {
             // Quitar la relación con la tabla docentes
@@ -22,15 +25,13 @@ class ModifyTribunalesActaTable extends Migration
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::table('tribunales_acta', function (Blueprint $table) {
-            // Volver a agregar la columna docente_id
-            $table->unsignedBigInteger('docente_id')->nullable();
-            $table->foreign('docente_id')->references('id_docente')->on('docentes')->onDelete('set null');
-
-            // Quitar los campos agregados
-            $table->dropColumn(['nombre', 'apellido_paterno', 'apellido_materno', 'cargo', 'ci']);
+            //
         });
     }
-}
+};
