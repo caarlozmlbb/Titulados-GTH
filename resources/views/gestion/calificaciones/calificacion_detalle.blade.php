@@ -68,7 +68,6 @@
                                 @php
                                    $suma = $suma + $calificacion->calificacion;
                                 @endphp
-
                                 <!-- Modal para Editar Calificación -->
                                 <div class="modal fade" id="editCalificacionModal{{ $calificacion->id }}"
                                     tabindex="-1" aria-labelledby="editCalificacionModalLabel{{ $calificacion->id }}"

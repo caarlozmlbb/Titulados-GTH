@@ -8,9 +8,14 @@
                         {{ session('success') }}
                     </div>
                 @endif
+                @if (session('error'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
-                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-                    data-bs-target="#inputModal">
+
+                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#inputModal">
                     <i class="fas fa-plus"></i> Modificar Información
                 </button>
 
@@ -51,7 +56,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('acta.update',$acta->id_acta) }}" method="POST">
+                                <form action="{{ route('acta.update', $acta->id_acta) }}" method="POST">
                                     @csrf
                                     <div class="table-responsive">
                                         <table class="table">
@@ -137,8 +142,7 @@
                                     </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                             </div>
                             </form>

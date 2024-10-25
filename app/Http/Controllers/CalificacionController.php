@@ -47,9 +47,12 @@ class CalificacionController extends Controller
         $estudiante = Estudiante::where('id_estudiante', $id_estudiante)->first();
         $acta = Acta::where('estudiante_id', $id_estudiante)->first(); // Cambiar 'actas' a 'acta' y usar ->first() para obtener un único registro
         if ($acta) {
+            $estudiante = Estudiante::where('id_estudiante', $id_estudiante)->first();
             $docentes = Docente::all();
             $calificaciones = Calificacion::where('acta_id', $acta->id_acta)->get(); // Añadido ->get()
         } else {
+            $docentes = Docente::all();
+            $estudiante = Estudiante::where('id_estudiante', $id_estudiante)->first();
             $calificaciones = collect(); // Crear una colección vacía si no hay acta
         }
 

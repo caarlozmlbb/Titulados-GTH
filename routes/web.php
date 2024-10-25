@@ -44,7 +44,7 @@ Route::post('/calificaciones/guardar', [CalificacionController::class, 'guardar_
 Route::put('/calificaciones/{id}', [CalificacionController::class, 'actualizar'])->name('calificaciones.actualizar');
 Route::delete('/calificaciones/{id}', [CalificacionController::class, 'eliminar'])->name('calificaciones.eliminar');
 Route::post('/acta/update/{id}', [ActaController::class, 'actualizarActaInformacion'])->name('acta.update');
-
+Route::post('/agregarTribunal',[ActaController::class, 'agregarTribunal'])->name('agregarTribunal');
 
 
 

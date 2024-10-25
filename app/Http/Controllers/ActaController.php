@@ -7,6 +7,7 @@ use App\Models\Estudiante;
 use App\Models\Docente;
 use App\Models\Modalidad;
 use App\Models\Calificacion;
+use App\Models\TribunalesActa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -140,21 +141,23 @@ class ActaController extends Controller
 
     public function agregarTitulo(Request $request)
     {
-        // Validar la solicitud
+
+
         $request->validate([
             'titulo' => 'required|string|max:255',
             'estudiante_id' => 'required|exists:estudiantes,id_estudiante',
-            'docente_id' => 'required|exists:docentes,id_docente',
+            'id_modalidad' => 'required',
         ]);
+
 
         try {
             $acta = Acta::create([
                 'titulo' => $request->titulo,
                 'estudiante_id' => $request->estudiante_id,
                 'modalidad_id' => $request->id_modalidad,
-                'tribunal_acta_id' => 1,
-                'tutor_acta_id' => $request->docente_id,
-                'num_resolucion' => 18,
+                'tribunal_acta_id' => null,
+                'tutor_acta_id' => null,
+                'num_resolucion' => null,
                 'lugar' => null,
                 'fecha_acta' => null,
                 'hora_comienzo' => null,
@@ -163,6 +166,7 @@ class ActaController extends Controller
                 'calificacion_literal' => null,
                 'valoracion' => null,
             ]);
+
 
             return redirect()->back()
                 ->withInput() // Esto es importante para que los datos persistan en el formulario
@@ -202,14 +206,46 @@ class ActaController extends Controller
             'num_resolucion' => 'required|string|max:255',
             'lugar' => 'required|string|max:255',
             'fecha_acta' => 'required|date',
-            'hora_comienzo' => 'required|date_format:H:i',
-            'hora_fin' => 'required|date_format:H:i',
+            'hora_comienzo' => 'required',
+            'hora_fin' => 'required',
         ]);
 
         // Actualiza la información del acta
         $acta = Acta::findOrFail($id);
         $acta->update($request->all());
 
-        return redirect()->route('crear-acta')->with('success', 'Información actualizada correctamente.');
+        return redirect()->back()->with('success', 'Información actualizada correctamente.');
+    }
+
+    public function store(Request $request)
+    {
+        // Validación de datos de docente y tribunales
+        $request->validate([
+            'docente_id' => 'required|exists:docentes,id_docente',
+            'nombre_tribunal.*' => 'required|string|max:50',
+            'paterno_tribunal.*' => 'required|string|max:50',
+            'materno_tribunal.*' => 'required|string|max:50',
+            'carnet_tribunal.*' => 'required|string|max:20',
+        ]);
+
+        // Crear un nuevo acta de título
+        $acta = new Acta();
+        $acta->docente_id = $request->docente_id;
+        $acta->fecha_acta = now(); // Ejemplo de asignación de fecha actual, ajusta según sea necesario
+        $acta->save();
+
+        // Guardar cada tribunal relacionado con este acta
+        foreach ($request->nombre_tribunal as $index => $nombre) {
+            $tribunal = new TribunalesActa();
+            $tribunal->acta_id = $acta->id;
+            $tribunal->nombre = $nombre;
+            $tribunal->paterno = $request->paterno_tribunal[$index];
+            $tribunal->materno = $request->materno_tribunal[$index];
+            $tribunal->carnet = $request->carnet_tribunal[$index];
+            $tribunal->save();
+        }
+
+        // Redirigir con mensaje de éxito
+        return redirect()->back()->with('success', 'Acta de título y tribunales agregados correctamente.');
     }
 }
