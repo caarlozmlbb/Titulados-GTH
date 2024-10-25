@@ -11,6 +11,8 @@ use App\Models\TribunalesActa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade\Pdf; // Asegúrate de importar correctamente
+
 
 class ActaController extends Controller
 {
@@ -247,5 +249,11 @@ class ActaController extends Controller
 
         // Redirigir con mensaje de éxito
         return redirect()->back()->with('success', 'Acta de título y tribunales agregados correctamente.');
+    }
+
+    public function descargarPDF($id)
+    {
+        $pdf = PDF::loadHTML('<h1>Prueba de PDF</h1><p>Este es un contenido de prueba.</p>');
+        return $pdf->stream('prueba.pdf');
     }
 }
