@@ -7,7 +7,9 @@ use App\Models\Estudiante;
 use App\Models\Tutor;
 use App\Models\Docente;
 use App\Models\Acta;
+use App\Models\ActaTribunal;
 use App\Models\Modalidad;
+use App\Models\TribunalesActa;
 use Illuminate\Http\Request;
 
 class CalificacionController extends Controller
@@ -43,13 +45,32 @@ class CalificacionController extends Controller
         $id_modalidad = $request->input('id_modalidad');
 
         $modalidad = Modalidad::where('id_modalidad', $id_modalidad)->first();
-
         $estudiante = Estudiante::where('id_estudiante', $id_estudiante)->first();
+
         $acta = Acta::where('estudiante_id', $id_estudiante)->first(); // Cambiar 'actas' a 'acta' y usar ->first() para obtener un único registro
+
         if ($acta) {
             $estudiante = Estudiante::where('id_estudiante', $id_estudiante)->first();
             $docentes = Docente::all();
-            $calificaciones = Calificacion::where('acta_id', $acta->id_acta)->get(); // Añadido ->get()
+            $calificaciones = Calificacion::where('acta_id', $acta->id_acta)->get();
+            $tribunales = TribunalesActa::all();
+            $actaTribunales = ActaTribunal::where('id_acta', $acta->id_acta)->get(); // Obtiene una colección
+
+            $nombresTribunales = [];
+
+            // Iterar sobre la colección de tribunales
+            foreach ($actaTribunales as $tribunal) {
+                // Acceder a la propiedad id_tribunal_acta del modelo ActaTribunal
+                $nombreTribunal = TribunalesActa::select('nombre','paterno','materno')
+                ->where('id_tribunal_acta', $tribunal->id_tribunal_acta)->first();
+
+                // Verificar si se encontró un tribunal antes de agregarlo al array
+                if ($nombreTribunal) {
+                    // Crear un nombre completo concatenando las propiedades
+                    $nombreTribunal->nombre_completo = $nombreTribunal->nombre . ' ' . $nombreTribunal->paterno . ' ' . $nombreTribunal->materno;
+                    $nombresTribunales[] = $nombreTribunal;
+                }
+            }
         } else {
             $docentes = Docente::all();
             $estudiante = Estudiante::where('id_estudiante', $id_estudiante)->first();
@@ -66,7 +87,9 @@ class CalificacionController extends Controller
                 'id_modalidad',
                 'modalidad',
                 'acta', // Pasar el acta existente
-                'calificaciones'
+                'calificaciones',
+                'tribunales',
+                'nombresTribunales',
             ));
         } else {
             // Si no tiene un acta, permitir crear uno nuevo

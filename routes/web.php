@@ -45,7 +45,9 @@ Route::put('/calificaciones/{id}', [CalificacionController::class, 'actualizar']
 Route::delete('/calificaciones/{id}', [CalificacionController::class, 'eliminar'])->name('calificaciones.eliminar');
 Route::post('/acta/update/{id}', [ActaController::class, 'actualizarActaInformacion'])->name('acta.update');
 Route::post('/agregarTribunal',[ActaController::class, 'agregarTribunal'])->name('agregarTribunal');
-
+Route::post('/agregarTribunalActa',[ActaController::class, 'agregarTribunalActa'])->name('agregarTribunalActa');
+Route::get('/descargar-pdf/{id}', [ActaController::class, 'descargarPDF'])->name('descargar.pdf');
+Route::get('/acta/pdf/{id}', [ActaController::class, 'descargarPDF'])->name('acta.pdf');
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root']);
@@ -72,5 +74,5 @@ Route::put('/update-password', [PasswordController::class, 'updatePassword'])->n
 Route::put('/update-info', [PasswordController::class, 'updateInfo'])->name('info.update');
 
 
-// Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index']);
 

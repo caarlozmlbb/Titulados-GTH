@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Acta;
+use App\Models\ActaTribunal;
 use App\Models\Estudiante;
 use App\Models\Docente;
 use App\Models\Modalidad;
@@ -205,55 +206,80 @@ class ActaController extends Controller
     {
         // Validación
         $request->validate([
-            'num_resolucion' => 'required|string|max:255',
-            'lugar' => 'required|string|max:255',
-            'fecha_acta' => 'required|date',
-            'hora_comienzo' => 'required',
-            'hora_fin' => 'required',
+            'num_resolucion' => 'nullable|string|max:255',
+            'lugar' => 'nullable|string|max:255',
+            'fecha_acta' => 'nullable|date',
+            'hora_comienzo' => 'nullable',
+            'hora_fin' => 'nullable',
         ]);
 
-        // Actualiza la información del acta
+        // Actualiza solo los campos que se han enviado
         $acta = Acta::findOrFail($id);
-        $acta->update($request->all());
+        $acta->update($request->only(['num_resolucion', 'lugar', 'fecha_acta', 'hora_comienzo', 'hora_fin']));
 
         return redirect()->back()->with('success', 'Información actualizada correctamente.');
     }
 
-    public function store(Request $request)
+
+    public function agregarTribunal(Request $request)
     {
+
         // Validación de datos de docente y tribunales
         $request->validate([
-            'docente_id' => 'required|exists:docentes,id_docente',
-            'nombre_tribunal.*' => 'required|string|max:50',
-            'paterno_tribunal.*' => 'required|string|max:50',
-            'materno_tribunal.*' => 'required|string|max:50',
-            'carnet_tribunal.*' => 'required|string|max:20',
+            // 'docente_id' => 'required|exists:docentes,id_docente',
+            'nombre' => 'required|string|max:50',
+            'paterno' => 'required|string|max:50',
+            'materno' => 'required|string|max:50',
+            'carnet' => 'required',
+            'id_acta' => 'required',
         ]);
 
-        // Crear un nuevo acta de título
-        $acta = new Acta();
-        $acta->docente_id = $request->docente_id;
-        $acta->fecha_acta = now(); // Ejemplo de asignación de fecha actual, ajusta según sea necesario
-        $acta->save();
+        // dd($request->all());
 
-        // Guardar cada tribunal relacionado con este acta
-        foreach ($request->nombre_tribunal as $index => $nombre) {
-            $tribunal = new TribunalesActa();
-            $tribunal->acta_id = $acta->id;
-            $tribunal->nombre = $nombre;
-            $tribunal->paterno = $request->paterno_tribunal[$index];
-            $tribunal->materno = $request->materno_tribunal[$index];
-            $tribunal->carnet = $request->carnet_tribunal[$index];
-            $tribunal->save();
-        }
-
+        $tribunal = new TribunalesActa();
+        // $tribunal->acta_id = $acta->id;
+        $tribunal->nombre = $request->nombre;
+        $tribunal->paterno = $request->paterno;
+        $tribunal->materno = $request->materno;
+        $tribunal->carnet = $request->carnet;
+        $tribunal->acta_id = $request->id_acta;
+        $tribunal->save();
         // Redirigir con mensaje de éxito
         return redirect()->back()->with('success', 'Acta de título y tribunales agregados correctamente.');
     }
 
+    public function agregarTribunalActa(Request $request)
+    {
+        // Validación de los datos enviados
+        $request->validate([
+            'id_tribunal_acta' => 'required|exists:tribunales_acta,id_tribunal_acta',
+            'rol' => 'required|string|max:50',
+            'id_acta' => 'required|exists:actas,id_acta',
+        ]);
+
+        $actaTribunal = new ActaTribunal();
+        $actaTribunal->id_tribunal_acta = $request->id_tribunal_acta;
+        $actaTribunal->rol = $request->rol;
+        $actaTribunal->id_acta = $request->id_acta;
+        $actaTribunal->save();
+
+        return redirect()->back()->with('success', 'Tribunal y rol agregados al acta correctamente.');
+    }
+
     public function descargarPDF($id)
     {
-        $pdf = PDF::loadHTML('<h1>Prueba de PDF</h1><p>Este es un contenido de prueba.</p>');
-        return $pdf->stream('prueba.pdf');
+        // Obtener los datos necesarios para la vista
+        $acta = Acta::findOrFail($id); // o cualquier otro método para obtener los datos
+
+        // Obtener los tribunales relacionados
+        // $tribunales = TribunalesActa::where('acta_id', $id)->get();
+
+        // Cargar la vista y pasarle los datos
+        $pdf = PDF::loadView('gestion.pdf.actatrabajo', ['acta' => $acta]);
+
+        // Establecer el tamaño de página a carta
+        $pdf->setPaper('letter', 'portrait'); // 'letter' es el tamaño carta
+
+        return $pdf->stream('acta_trabajo.pdf');
     }
 }

@@ -10,12 +10,14 @@ class TribunalesActa extends Model
     use HasFactory;
     protected $table = 'tribunales_acta';
 
+    protected $primaryKey = 'id_tribunal_acta';
+
     protected $fillable = [
         'nombre',
-        'apellido_paterno',
-        'apellido_materno',
+        'paterno',
+        'materno',
         'cargo',
-        'ci',
+        'carnet',
         'rol',
     ];
 }

@@ -105,7 +105,6 @@
                                 <th>id_actaMaria</th>
                                 <th>modalidad id</th>
                                 <th>tutor acta id</th>
-                                <th>tribunal acta id</th>
                                 <th>num resolucion</th>
                                 <th>lugar</th>
                                 <th>fecha acta</th>
@@ -128,7 +127,6 @@
                                     <td>{{ $acta->id_acta }}</td>
                                     <td>{{ $acta->modalidad_id }}</td>
                                     <td>{{ $acta->tutor_acta_id }}</td>
-                                    <td>{{ $acta->tribunal_acta_id }}</td>
                                     <td>{{ $acta->num_resolucion }}</td>
                                     <td>{{ $acta->lugar }}</td>
                                     <td>{{ $acta->fecha_acta }}</td>
@@ -148,9 +146,9 @@
                                             onclick="return confirm('¿Estás seguro de que deseas eliminar esta calificación?')">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
-                                        <!-- Botón para Actualizar -->
-                                        <a href="#" class="btn btn-outline-success btn-sm update" title="Actualizar">
-                                            <i class="fas fa-sync-alt"></i>
+                                        <!-- Botón para Generar PDF -->
+                                        <a href="{{ route('acta.pdf', ['id' => $acta->id_acta]) }}" class="btn btn-outline-success btn-sm update" title="Generar PDF" target="_blank">
+                                            <i class="fas fa-file-pdf"></i>
                                         </a>
                                     </td>
                                 </tr>
