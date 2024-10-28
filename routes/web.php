@@ -20,7 +20,6 @@ use App\Http\Controllers\TribunalesActaController;
 |
 */
 
-
 Auth::routes();
 Route::resource('vista_modalidad', ModalidadController::class)->names('modalidades');
 Route::resource('tribunales', TribunalesActaController::class)->names('tribunales');
@@ -49,6 +48,8 @@ Route::post('/agregarTribunal',[ActaController::class, 'agregarTribunal'])->name
 Route::post('/agregarTribunalActa',[ActaController::class, 'agregarTribunalActa'])->name('agregarTribunalActa');
 Route::get('/descargar-pdf/{id}', [ActaController::class, 'descargarPDF'])->name('descargar.pdf');
 Route::get('/acta/pdf/{id}', [ActaController::class, 'descargarPDF'])->name('acta.pdf');
+Route::post('/insertar-tutor', [CalificacionController::class, 'insertarTutor']);
+
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'root']);

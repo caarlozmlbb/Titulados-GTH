@@ -9,5 +9,7 @@ class Tutor extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_tutor_acta';
     protected $table = "tutores_acta";
+    protected $fillable = ['docente_id'];
 }
