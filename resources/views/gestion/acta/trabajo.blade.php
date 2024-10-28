@@ -89,31 +89,29 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="card-title">Buttons example</h4>
-                    <p class="card-title-desc">The Buttons extension for DataTables
-                        provides a common set of options, API methods and styling to display
-                        buttons on a page that will interact with a DataTable. The core library
-                        provides the based framework upon which plug-ins can built.
+                    <h4 class="card-title">Acta Trabajo Dirigido</h4>
+                    <p class="card-title-desc">
+                        Bienvenido a la sección de generación de <b>Actas</b> de <b>Trabajo Dirigido</b>, donde podrás introducir los datos necesarios para crear actas de manera rápida y eficiente. También podrás generar un informe completo sobre todos los titulados en formatos <b>PDF</b> y <b>Excel</b>.
                     </p>
 
                     <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                             <tr>
-                                <th>Nombre estudiante</th>
+                                <th>Nombre Estudiante</th>
                                 <th>Carnet</th>
                                 <th>id_actaMaria</th>
                                 <th>modalidad id</th>
                                 <th>tutor acta id</th>
-                                <th>num resolucion</th>
-                                <th>lugar</th>
-                                <th>fecha acta</th>
-                                <th>hora comienzo</th>
-                                <th>hora fin</th>
-                                <th>calificacion total</th>
-                                <th>calificacion_literal</th>
+                                <th>N° Resolución</th>
+                                <th>Lugar</th>
+                                <th>Fecha Acta</th>
+                                <th>Hora Comienzo</th>
+                                <th>Hora Fin</th>
+                                <th>Calificacion total</th>
+                                <th>Calificacion_literal</th>
                                 <th>valoracion</th>
-                                <th>titulo</th>
+                                <th>Titulo</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -138,7 +136,7 @@
                                     <td>{{ $acta->titulo }}</td>
                                     <td style="width: 100px">
                                         <!-- Botón para Editar -->
-                                        <a href="#" class="btn btn-outline-primary btn-sm edit" title="Editar">
+                                        <a href="{{ route('crear-acta', ['id_estudiante' => $acta->id_estudiante, 'id_modalidad' => $acta->modalidad_id]) }}" class="btn btn-outline-primary btn-sm" title="Editar">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
                                         <!-- Botón para Eliminar -->

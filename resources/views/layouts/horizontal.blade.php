@@ -131,7 +131,7 @@
                             <div class="col">
                                 <a class="dropdown-icon-item" href="#">
                                     <img src="{{ URL::asset('/assets/images/brands/github.png') }}" alt="Github">
-                                    <span>GitHub</span>
+                                    <span>Campus</span>
                                 </a>
                             </div>
                             <div class="col">

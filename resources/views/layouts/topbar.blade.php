@@ -112,25 +112,28 @@
                     <div class="px-lg-2">
                         <div class="row g-0">
                             <div class="col">
-                                <a class="dropdown-icon-item" href="#">
-                                    <img src="{{ URL::asset('/assets/images/brands/github.png') }}" alt="Github">
-                                    <span>GitHub</span>
+                                <a class="dropdown-icon-item" href="https://turismo.upea.edu.bo/">
+                                    <i class="uil uil-desktop"></i>
+                                    {{-- <img src="{{ URL::asset('/assets/images/brands/github.png') }}" alt="Github"> --}}
+                                    <span>Página Web</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a class="dropdown-icon-item" href="https://inscripcionesgestion.upea.bo/">
+                                    <i class="uil uil-file-upload"></i>
+                                    {{-- <img src="{{ URL::asset('/assets/images/brands/bitbucket.png') }}" alt="bitbucket"> --}}
+                                    <span>Inscripciones</span>
                                 </a>
                             </div>
                             <div class="col">
                                 <a class="dropdown-icon-item" href="#">
-                                    <img src="{{ URL::asset('/assets/images/brands/bitbucket.png') }}" alt="bitbucket">
-                                    <span>Bitbucket</span>
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a class="dropdown-icon-item" href="#">
-                                    <img src="{{ URL::asset('/assets/images/brands/dribbble.png') }}" alt="dribbble">
-                                    <span>Dribbble</span>
+                                    <i class="uil-flask"></i>
+                                    {{-- <img src="{{ URL::asset('/assets/images/brands/dribbble.png') }}" alt="dribbble"> --}}
+                                    <span>Campus Virtual</span>
                                 </a>
                             </div>
                         </div>
-
+{{--                    Mas links
                         <div class="row g-0">
                             <div class="col">
                                 <a class="dropdown-icon-item" href="#">
@@ -150,7 +153,7 @@
                                     <span>Slack</span>
                                 </a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

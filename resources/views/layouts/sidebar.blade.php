@@ -57,7 +57,7 @@
                 <li class="menu-title">@lang('MODALIDADES')</li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="uil-users-alt"></i>
+                        <i class="uil-file-alt"></i>
                         <span>@lang('Modalidad Egreso')</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -94,7 +94,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('modalidades.index') }}">@lang('Listado de Tutores')</a></li>
-                        <li><a href="ruta">@lang('Listado de Tribunales')</a></li>
+                        <li><a href="{{ route('tribunales.index') }}">@lang('Listado de Tribunales')</a></li> 
                     </ul>
                 </li>
 

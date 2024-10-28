@@ -111,7 +111,7 @@
                                             type="submit">Registrarse</button>
                                     </div>
 
-                                    <div class="mt-4 text-center">
+                                    {{-- <div class="mt-4 text-center">
                                         <div class="signin-other-title">
                                             <h5 class="font-size-14 mb-3 title">Sign up using</h5>
                                         </div>
@@ -136,7 +136,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="mt-4 text-center">
                                         <p class="text-muted mb-0">¿Ya tienes una cuenta? <a href="{{ url('login') }}"
@@ -150,8 +150,9 @@
                         <p>©
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> U-TIC.<i class="mdi mdi-heart text-danger"></i> Developed by
-                            Themesbrand
+                            </script> U-TIC.<i class="mdi mdi-star text-warning"></i> Developed by
+                            <b><a href="https://themesbrand.com/" target="_blank" class="text-reset">Mafer</a> </b> &
+                            <b><a href="https://themesbrand.com/" target="_blank" class="text-reset">CAARLOZ</a> </b>
                         </p>
                     </div>
                 </div>

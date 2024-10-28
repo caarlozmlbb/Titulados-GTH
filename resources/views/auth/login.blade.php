@@ -228,7 +228,10 @@
                     
                     <div class="flex items-center justify-center space-x-2">
                         <span class="h-px w-16 bg-gray-200"></span>
-                        <span class="text-gray-300 font-normal">© U-TIC. Developed by Themesbrand</span>
+                        <span class="text-center text-gray-300 font-normal">© U-TIC.<br> Developed by 
+                            <b><a href="https://themesbrand.com/" target="_blank" class="text-reset">CAARLOZ</a></b> &
+                            <b><a href="https://themesbrand.com/" target="_blank" class="text-reset">Mafer</a></b>
+                        </span>
                         <span class="h-px w-16 bg-gray-200"></span>
                         {{-- Mini-texto
                     <p class="flex flex-col items-center justify-center mt-10 text-center text-xs text-gray-500">©
