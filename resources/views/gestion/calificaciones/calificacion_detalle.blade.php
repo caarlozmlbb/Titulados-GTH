@@ -60,23 +60,23 @@
                                         <!-- Botón para abrir el modal -->
                                         <button class="btn btn-outline-success btn-sm" title="Actualizar"
                                             data-bs-toggle="modal"
-                                            data-bs-target="#editCalificacionModal{{ $calificacion->id }}">
+                                            data-bs-target="#editCalificacionModal{{ $calificacion->id_calificacion }}">
                                             <i class="fas fa-sync-alt"></i>
                                         </button>
                                     </td>
                                 </tr>
                                 @php
-                                   $suma = $suma + $calificacion->calificacion;
+                                    $suma = $suma + $calificacion->calificacion;
                                 @endphp
                                 <!-- Modal para Editar Calificación -->
-                                <div class="modal fade" id="editCalificacionModal{{ $calificacion->id }}"
-                                    tabindex="-1" aria-labelledby="editCalificacionModalLabel{{ $calificacion->id }}"
+                                <div class="modal fade" id="editCalificacionModal{{ $calificacion->id_calificacion }}"
+                                    tabindex="-1" aria-labelledby="editCalificacionModalLabel{{ $calificacion->id_calificacion }}"
                                     aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title"
-                                                    id="editCalificacionModalLabel{{ $calificacion->id }}">Editar
+                                                    id="editCalificacionModalLabel{{ $calificacion->id_calificacion }}">Editar
                                                     Calificación</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
@@ -86,44 +86,76 @@
                                                     action="{{ route('calificaciones.actualizar', $calificacion->id_calificacion) }}">
                                                     @csrf
                                                     @method('PUT')
+
+                                                    <!-- Tipo de Calificación -->
                                                     <div class="mb-3">
                                                         <label for="tipo_calificacion" class="form-label">Tipo de
                                                             Calificación</label>
                                                         <select class="form-control" name="tipo_calificacion" required>
-                                                            <option value="Perfil de trabajo dirigido"
-                                                                {{ $calificacion->tipo_calificacion == 'Perfil de trabajo dirigido' ? 'selected' : '' }}>
-                                                                Perfil de trabajo dirigido</option>
-                                                            <option value="Defensa gran borrador del trabajo dirigido"
-                                                                {{ $calificacion->tipo_calificacion == 'Defensa gran borrador del trabajo dirigido' ? 'selected' : '' }}>
-                                                                Defensa gran borrador del trabajo dirigido</option>
-                                                            <option value="Defensa Final"
-                                                                {{ $calificacion->tipo_calificacion == 'Defensa Final' ? 'selected' : '' }}>
-                                                                Defensa Final</option>
+                                                            @if ($modalidad->nombre_modalidad == 'Excelencia Académica')
+                                                                <option value="Excelencia Académica"
+                                                                    {{ $calificacion->tipo_calificacion == 'Excelencia Académica' ? 'selected' : '' }}>
+                                                                    Excelencia Académica</option>
+                                                            @elseif ($modalidad->nombre_modalidad == 'Trabajo Dirigido')
+                                                                <option value="Trabajo Dirigido"
+                                                                    {{ $calificacion->tipo_calificacion == 'Trabajo Dirigido' ? 'selected' : '' }}>
+                                                                    Trabajo Dirigido</option>
+                                                                <option
+                                                                    value="Defensa gran borrador del trabajo dirigido"
+                                                                    {{ $calificacion->tipo_calificacion == 'Defensa gran borrador del trabajo dirigido' ? 'selected' : '' }}>
+                                                                    Defensa gran borrador del trabajo dirigido</option>
+                                                                <option value="Defensa Final"
+                                                                    {{ $calificacion->tipo_calificacion == 'Defensa Final' ? 'selected' : '' }}>
+                                                                    Defensa Final</option>
+                                                            @elseif ($modalidad->nombre_modalidad == 'Tesis de Grado' || $modalidad->nombre_modalidad == 'Proyecto de Grado')
+                                                                <option value="Presentación del contenido teórico"
+                                                                    {{ $calificacion->tipo_calificacion == 'Presentación del contenido teórico' ? 'selected' : '' }}>
+                                                                    Presentación del contenido teórico</option>
+                                                                <option value="Defensa pública"
+                                                                    {{ $calificacion->tipo_calificacion == 'Defensa pública' ? 'selected' : '' }}>
+                                                                    Defensa pública</option>
+                                                            @else
+                                                                <option value="Perfil de trabajo dirigido"
+                                                                    {{ $calificacion->tipo_calificacion == 'Perfil de trabajo dirigido' ? 'selected' : '' }}>
+                                                                    Perfil de trabajo dirigido</option>
+                                                                <option
+                                                                    value="Defensa gran borrador del trabajo dirigido"
+                                                                    {{ $calificacion->tipo_calificacion == 'Defensa gran borrador del trabajo dirigido' ? 'selected' : '' }}>
+                                                                    Defensa gran borrador del trabajo dirigido</option>
+                                                                <option value="Defensa Final"
+                                                                    {{ $calificacion->tipo_calificacion == 'Defensa Final' ? 'selected' : '' }}>
+                                                                    Defensa Final</option>
+                                                            @endif
                                                         </select>
                                                     </div>
+
+                                                    <!-- Fecha -->
                                                     <div class="mb-3">
                                                         <label for="fecha" class="form-label">Fecha</label>
                                                         <input type="date" class="form-control" name="fecha"
                                                             value="{{ $calificacion->fecha }}" required>
                                                     </div>
+
+                                                    <!-- Calificación -->
                                                     <div class="mb-3">
                                                         <label for="calificacion"
                                                             class="form-label">Calificación</label>
-                                                        <input type="number" class="form-control"
-                                                            name="calificacion" placeholder="Ej. 25"
+                                                        <input type="number" class="form-control" name="calificacion"
                                                             value="{{ $calificacion->calificacion }}" required>
                                                     </div>
+
+                                                    <!-- Calificación Literal -->
                                                     <div class="mb-3">
                                                         <label for="calificacion_literal"
                                                             class="form-label">Calificación Literal</label>
                                                         <input type="text" class="form-control"
-                                                            name="calificacion_literal" placeholder="Ej. Veinticinco"
-                                                            value="{{ $calificacion->calificacion_literal }}"
-                                                            required>
+                                                            name="calificacion_literal"
+                                                            value="{{ $calificacion->calificacion_literal }}" required>
                                                     </div>
+
+                                                    <!-- Valoración -->
                                                     <div class="mb-3">
-                                                        <label for="valoraciones"
-                                                            class="form-label">Valoración</label>
+                                                        <label for="valoraciones" class="form-label">Valoración</label>
                                                         <select class="form-control" name="valoraciones" required>
                                                             <option value="BUENA"
                                                                 {{ $calificacion->valoraciones == 'BUENA' ? 'selected' : '' }}>
@@ -133,11 +165,14 @@
                                                                 SOBRESALIENTE</option>
                                                         </select>
                                                     </div>
+
+                                                    <!-- Observaciones -->
                                                     <div class="mb-3">
                                                         <label for="observaciones"
                                                             class="form-label">Observaciones</label>
-                                                        <textarea class="form-control" rows="3" name="observaciones" placeholder="Ingrese observaciones adicionales">{{ $calificacion->observaciones }}</textarea>
+                                                        <textarea class="form-control" rows="3" name="observaciones">{{ $calificacion->observaciones }}</textarea>
                                                     </div>
+
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Cancelar</button>
@@ -154,7 +189,7 @@
                         <tfoot>
                             <tr style="background-color: #f8d7da; color: #721c24;">
                                 <th colspan="4" style="text-align: right;">Total Nota:</th>
-                                <th>{{  $suma}}/100</th>
+                                <th>{{ $suma }}/100</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -183,12 +218,42 @@
                     <div class="mb-3">
                         <label for="tipo_calificacion" class="form-label">Tipo de Calificación</label>
                         <select class="form-control" id="tipo_calificacion" name="tipo_calificacion">
-                            <option value="Perfil de trabajo dirigido">Perfil de trabajo dirigido</option>
-                            <option value="Defensa gran borrador del trabajo dirigido">Defensa gran borrador del
-                                trabajo dirigido</option>
-                            <option value="Defensa Final">Defensa Final</option>
+                            @if ($modalidad->nombre_modalidad == 'Excelencia Académica')
+                                <option value="Excelencia Académica" selected>Excelencia Académica</option>
+                                <option value="Otro" disabled>Otras Modalidades</option>
+                            @elseif ($modalidad->nombre_modalidad == 'Trabajo Dirigido')
+                                <option value="Trabajo Dirigido" selected>Trabajo Dirigido</option>
+                                <option value="Defensa gran borrador del trabajo dirigido">Defensa gran borrador del
+                                    trabajo dirigido</option>
+                                <option value="Defensa Final">Defensa Final</option>
+                            @elseif ($modalidad->nombre_modalidad == 'Tesis de Grado')
+                                <option value="Presentación del contenido teórico" selected>Presentación del contenido
+                                    teórico</option>
+                                <option value="Defensa pública">Defensa pública</option>
+                            @elseif ($modalidad->nombre_modalidad == 'Proyecto de Grado')
+                                <option value="Presentación del contenido teórico" selected>Presentación del contenido
+                                    teórico</option>
+                                <option value="Defensa pública">Defensa pública</option>
+                            @else
+                                <option value="Perfil de trabajo dirigido">Perfil de trabajo dirigido</option>
+                                <option value="Defensa gran borrador del trabajo dirigido">Defensa gran borrador del
+                                    trabajo dirigido</option>
+                                <option value="Defensa Final">Defensa Final</option>
+                            @endif
                         </select>
+
+                        @if (
+                            !in_array($modalidad->nombre_modalidad, [
+                                'Excelencia Académica',
+                                'Trabajo Dirigido',
+                                'Tesis de Grado',
+                                'Proyecto de Grado',
+                            ]))
+                            <input type="text" class="form-control mt-2" id="otro_tipo_calificacion"
+                                name="otro_tipo_calificacion" placeholder="Escriba otro tipo de calificación">
+                        @endif
                     </div>
+
                     <div class="mb-3">
                         <label for="fecha" class="form-label">Fecha</label>
                         <input type="date" class="form-control" id="fecha" name="fecha">
@@ -221,8 +286,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="guardarCalificacionBtn">Guardar
-                    Calificación</button>
+                <button type="button" class="btn btn-primary" id="guardarCalificacionBtn">Guardar Calificación</button>
             </div>
         </div>
     </div>
@@ -258,8 +322,9 @@
             success: function(response) {
                 if (response.success) {
                     alert(response.message);
+
                     $('#addCalificacionModal').modal('hide');
-                    // Opcionalmente, recargar la página o actualizar la tabla con la nueva calificación
+
                     location.reload();
                 } else {
                     alert("Ocurrió un error al guardar la calificación.");

@@ -13,37 +13,34 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="d-flex align-items-center mb-2">
-                                <!-- Etiqueta para Tribunales -->
                                 <label for="docente_id" class="form-label me-3 mb-0">DOCENTE</label>
-
-                                <!-- Select de Tribunales -->
                                 <div class="flex-grow-1 me-3">
                                     <select class="form-control @error('docente_id') is-invalid @enderror"
                                         id="docente_id" name="docente_id">
-                                        <option value="">Seleccione Docente</option>
-                                        @foreach ($docentes as $tribunal)
-                                            <option value="{{ $tribunal->id_tribunal_acta }}">
-                                                {{ $tribunal->nombre }} {{ $tribunal->paterno }}
-                                                {{ $tribunal->materno }}
+                                        <option value="">Seleccione Tutor</option>
+                                        @foreach ($docentes as $docente)
+                                            <option value="{{ $docente->id_docente }}">
+                                                {{ $docente->nombre }} {{ $docente->paterno }}
+                                                {{ $docente->materno }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-
+                                <input type="hidden" class="form-control" id="id_acta" name="id_acta" required
+                                    value="{{ $acta->id_acta }}">
                                 <!-- Botón para añadir -->
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#tribunalModal">
-                                    <i class="fas fa-plus"></i> Añadir
+                                <button type="button" class="btn btn-secondary">
+                                    <i class="fas fa-plus"></i> Añadir tutor
                                 </button>
-
-
                             </div>
                             <table class="table table-bordered">
                                 <tbody>
+                                    @foreach ($nombresDocentes as $docente)
                                     <tr>
-                                        <th>Docente 1</th>
-                                        <td></td>
+                                        <th>Tutor</th>
+                                        <td>{{$docente->nombre}} {{$docente->paterno}} {{$docente->materno}}</td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
 
@@ -51,7 +48,7 @@
                             <div class="mb-3">
                                 <div class="d-flex align-items-center mb-2">
                                     <!-- Etiqueta para Tribunales -->
-                                    <label for="docente_id" class="form-label me-3 mb-0">TRIBUNALES</label>
+                                    <label for="docents_id" class="form-label me-3 mb-0">TRIBUNALES</label>
 
                                     <!-- Botón para añadir, alineado a la derecha -->
                                     <button type="button" class="btn btn-secondary ms-auto" data-bs-toggle="modal"
@@ -63,7 +60,8 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th>Rol</th>
+                                            <th>Cargo</th>
                                             <th>Nombre Completo</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -73,29 +71,28 @@
                                             $tribunalCount = count($nombresTribunales);
                                         @endphp
 
-                                        @for ($i = 0; $i < 3; $i++)
+                                        @for ($i = 0; $i < 4; $i++)
                                             <tr>
-                                                <th>Tribunal {{ $i + 1 }}</th>
-                                                <td>{{ $tribunalCount > $i ? $nombresTribunales[$i]->nombre_completo : 'sin dato' }}
-                                                </td>
+                                                <th>{{ $tribunalCount > $i ? $rolesTribunales[$i] : 'sin dato' }}</th>
+                                                <td>{{ $tribunalCount > $i ? $cargosTribunales[$i] : 'sin dato' }}</td>
+                                                <td>{{ $tribunalCount > $i ? $nombresTribunales[$i]->nombre_completo : 'sin dato' }}</td>
                                                 <td>
                                                     @if ($tribunalCount > $i)
                                                         {{-- Formulario para eliminar --}}
                                                         <form action="" method="POST" style="display:inline;">
-                                                            {{-- {{ route('calificaciones.eliminar', $nombresTribunales[$i]->id_tribunal_acta) }} --}}
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-outline-danger btn-sm"
-                                                                title="Eliminar"
-                                                                onclick="return confirm('¿Estás seguro de que deseas eliminar esta calificación?')">
+                                                                    title="Eliminar"
+                                                                    onclick="return confirm('¿Estás seguro de que deseas eliminar esta calificación?')">
                                                                 <i class="fas fa-trash-alt"></i>
                                                             </button>
                                                         </form>
 
                                                         {{-- Botón para abrir el modal de actualización --}}
                                                         <button class="btn btn-outline-success btn-sm"
-                                                            title="Actualizar" data-bs-toggle="modal"
-                                                            data-bs-target="#editCalificacionModal">
+                                                                title="Actualizar" data-bs-toggle="modal"
+                                                                data-bs-target="#editCalificacionModal">
                                                             <i class="fas fa-sync-alt"></i>
                                                         </button>
                                                     @else
@@ -106,6 +103,7 @@
                                         @endfor
                                     </tbody>
                                 </table>
+
                             </div>
                             @if (empty($acta->titulo))
                                 <div class="mb-3">
@@ -157,7 +155,7 @@
                                             <option value="TRIBUNAL">TRIBUNAL</option>
                                         </select>
                                     </div>
-                                    <input type="text" class="form-control" id="id_acta" name="id_acta" required
+                                    <input type="hidden" class="form-control" id="id_acta" name="id_acta" required
                                         value="{{ $acta->id_acta }}">
 
                                     <!-- Botón para enviar -->
@@ -175,49 +173,35 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Evento para el botón "Añadir"
+        $('button').click(function() {
+            var docenteId = $('#docente_id').val();
+            var actaId = $('#id_acta').val(); // Obtener el id_acta desde el campo oculto
 
+            if (docenteId && actaId) {
+                $.ajax({
+                    url: '/insertar-tutor',
+                    type: 'POST',
+                    data: {
+                        docente_id: docenteId,
+                        id_acta: actaId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log("Tutor añadido correctamente. ID Tutor Acta:", response
+                            .id_tutor_acta);
+                        alert(response.success);
+                    },
+                    error: function(xhr) {
+                        alert('Error al añadir el tutor o actualizar el acta.');
+                        console.log(xhr.responseText);
+                    }
+                });
 
-{{-- <div class="modal fade" id="tribunalModal" tabindex="-1" aria-labelledby="tribunalModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="tribunalModalLabel">Agregar Tribunal</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="tribunalForm" action="{{ route('agregarTribunal') }}" method="POST">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="nombre" class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" id="nombre" name="nombre"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="paterno" class="form-label">Apellido Paterno</label>
-                                        <input type="text" class="form-control" id="paterno" name="paterno"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="materno" class="form-label">Apellido Materno</label>
-                                        <input type="text" class="form-control" id="materno" name="materno"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="carnet" class="form-label">Carnet</label>
-                                        <input type="text" class="form-control" id="carnet" name="carnet"
-                                            required>
-                                    </div>
-                                    <input type="hidden" class="form-control" id="id_acta" name="id_acta" required
-                                        value="{{ $acta->id_acta }}">
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary">Guardar Tribunal</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
+            }
+        });
+    });
+</script>

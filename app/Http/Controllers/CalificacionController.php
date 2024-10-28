@@ -47,28 +47,36 @@ class CalificacionController extends Controller
         $modalidad = Modalidad::where('id_modalidad', $id_modalidad)->first();
         $estudiante = Estudiante::where('id_estudiante', $id_estudiante)->first();
 
-        $acta = Acta::where('estudiante_id', $id_estudiante)->first(); // Cambiar 'actas' a 'acta' y usar ->first() para obtener un único registro
+        $acta = Acta::where('estudiante_id', $id_estudiante)->first();
 
         if ($acta) {
-            $estudiante = Estudiante::where('id_estudiante', $id_estudiante)->first();
             $docentes = Docente::all();
             $calificaciones = Calificacion::where('acta_id', $acta->id_acta)->get();
             $tribunales = TribunalesActa::all();
-            $actaTribunales = ActaTribunal::where('id_acta', $acta->id_acta)->get(); // Obtiene una colección
+            $actaTribunales = ActaTribunal::where('id_acta', $acta->id_acta)->get();
+            $tutores_id = Tutor::where('id_tutor_acta', $acta->tutor_acta_id)->first();
+
+            // Verificar si hay un tutor y si tiene un docente asignado
+            $nombresDocentes = null; // Inicializar como null
+            if ($tutores_id && $tutores_id->docente_id) {
+                $nombresDocentes = Docente::where('id_docente', $tutores_id->docente_id)->get();
+            } else {
+                $nombresDocentes = collect(); // Crear colección vacía si no hay docente
+            }
 
             $nombresTribunales = [];
+            $cargosTribunales = [];
+            $rolesTribunales = [];
 
-            // Iterar sobre la colección de tribunales
             foreach ($actaTribunales as $tribunal) {
-                // Acceder a la propiedad id_tribunal_acta del modelo ActaTribunal
-                $nombreTribunal = TribunalesActa::select('nombre','paterno','materno')
-                ->where('id_tribunal_acta', $tribunal->id_tribunal_acta)->first();
+                $nombreTribunal = TribunalesActa::select('nombre', 'paterno', 'materno', 'cargo')
+                    ->where('id_tribunal_acta', $tribunal->id_tribunal_acta)->first();
 
-                // Verificar si se encontró un tribunal antes de agregarlo al array
                 if ($nombreTribunal) {
-                    // Crear un nombre completo concatenando las propiedades
                     $nombreTribunal->nombre_completo = $nombreTribunal->nombre . ' ' . $nombreTribunal->paterno . ' ' . $nombreTribunal->materno;
                     $nombresTribunales[] = $nombreTribunal;
+                    $cargosTribunales[] = $nombreTribunal->cargo;
+                    $rolesTribunales[] = $tribunal->rol;
                 }
             }
         } else {
@@ -77,22 +85,22 @@ class CalificacionController extends Controller
             $calificaciones = collect(); // Crear una colección vacía si no hay acta
         }
 
-        // Verificar si el estudiante ya tiene un acta
         if ($acta) {
-            // Si ya tiene un acta, mostrar la vista con el título existente y no permitir crear uno nuevo
             return view('gestion.acta.acta', compact(
                 'id_estudiante',
                 'estudiante',
                 'docentes',
                 'id_modalidad',
                 'modalidad',
-                'acta', // Pasar el acta existente
+                'acta',
                 'calificaciones',
                 'tribunales',
                 'nombresTribunales',
+                'nombresDocentes',
+                'cargosTribunales',
+                'rolesTribunales'
             ));
         } else {
-            // Si no tiene un acta, permitir crear uno nuevo
             return view('gestion.acta.acta', compact(
                 'id_estudiante',
                 'estudiante',
@@ -103,6 +111,7 @@ class CalificacionController extends Controller
             ));
         }
     }
+
 
     public function guardar_calificacion(Request $request)
     {
@@ -127,8 +136,49 @@ class CalificacionController extends Controller
         $calificacion->acta_id = $request->acta_id;
         $calificacion->save();
 
+        $idActa = $request->acta_id;
+
+        $this->CalificacionTotal($idActa);
+
         return response()->json(['success' => true, 'message' => 'Calificación guardada exitosamente']);
     }
+
+    public function CalificacionTotal($idActa)
+    {
+        $notas = Calificacion::where('acta_id', $idActa)->get();
+        $suma = 0;
+
+        foreach ($notas as $nota) {
+            $suma = $suma + $nota->calificacion;
+        }
+
+        $sumaEnTexto = $this->numeroALetras($suma);
+
+        if ($suma < 51) {
+            $valoracion = 'INSUFICIENTE';
+        } elseif ($suma >= 51 && $suma <= 79) {
+            $valoracion = 'BUENA';
+        } elseif ($suma >= 80 && $suma <= 89) {
+            $valoracion = 'SOBRESALIENTE';
+        } elseif ($suma >= 90 && $suma <= 100) {
+            $valoracion = 'EXCELENTE';
+        }
+
+        $acta = Acta::find($idActa);
+        if ($acta) {
+            $acta->valoracion = $valoracion;
+            $acta->calificacion_total = $suma;
+            $acta->calificacion_literal = $sumaEnTexto; // Guardar el número en texto
+            $acta->save();
+        }
+    }
+
+    private function numeroALetras($numero)
+    {
+        $formatter = new \NumberFormatter("es", \NumberFormatter::SPELLOUT);
+        return $formatter->format($numero);
+    }
+
 
     public function actualizar(Request $request, $id)
     {
@@ -141,14 +191,52 @@ class CalificacionController extends Controller
         $calificacion->observaciones = $request->input('observaciones');
         $calificacion->save();
 
+        $idActa = Calificacion::select('acta_id')
+            ->where('id_calificacion', $id);
+
+        $this->CalificacionTotal($idActa);
+
         return redirect()->back()->with('success', 'Calificación actualizada correctamente.');
     }
 
     public function eliminar($id)
     {
         $calificacion = Calificacion::findOrFail($id);
+        $idActa = $calificacion->acta_id;
         $calificacion->delete();
 
+        $this->CalificacionTotal($idActa);
+
         return redirect()->back()->with('success', 'Calificación eliminada correctamente.');
+    }
+
+    public function insertarTutor(Request $request)
+    {
+        // Validar que se haya recibido un id_docente
+        $request->validate([
+            'docente_id' => 'required|exists:docentes,id_docente',
+            'id_acta' => 'required|exists:actas,id_acta'
+        ]);
+
+        // Insertar en la tabla tutores_acta
+        $tutorActa = new Tutor(); // Asegúrate de tener un modelo llamado Tutor
+        $tutorActa->docente_id = $request->docente_id;
+        $tutorActa->save();
+
+        // Obtener el ID recién creado
+        $id_tutor_acta = $tutorActa->id_tutor_acta;
+
+        // Actualizar la tabla actas con el id_acta recibido
+        $acta = Acta::find($request->id_acta);
+        if ($acta) {
+            $acta->tutor_acta_id = $id_tutor_acta; // O el campo que necesites actualizar
+            $acta->save();
+        }
+
+        // Devolver el ID recién creado en la respuesta JSON
+        return response()->json([
+            'success' => 'Tutor añadido correctamente',
+            'id_tutor_acta' => $id_tutor_acta
+        ]);
     }
 }
