@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Barryvdh\DomPDF\Facade\Pdf; // Asegúrate de importar correctamente
 
 
+
 class ActaController extends Controller
 {
 
@@ -268,8 +269,24 @@ class ActaController extends Controller
 
     public function descargarPDF($id)
     {
+
+        $acta = DB::table('actas as ac')
+    ->join('estudiantes as es', 'ac.estudiante_id', '=', 'es.id_estudiante')
+    ->leftJoin('tutores_acta as tu', 'ac.tutor_acta_id', '=', 'tu.id_tutor_acta')
+    ->join('docentes as doc', 'tu.docente_id', '=', 'doc.id_docente')
+    ->join('modalidades_titulacion as mo', 'ac.modalidad_id', '=', 'mo.id_modalidad')
+    ->select('mo.nombre_modalidad', 
+             'doc.nombre as nombre_docente', 
+             'doc.paterno as paterno_docente', 
+             'doc.materno as materno_docente', 
+             'doc.ci', 
+             'es.*', 
+             'ac.*')
+    ->where('es.id_estudiante', $id)
+    ->first();
+    
         // Obtener los datos necesarios para la vista
-        $acta = Acta::findOrFail($id); // o cualquier otro método para obtener los datos
+        //$acta = Acta::findOrFail($id); // o cualquier otro método para obtener los datos
 
         // Obtener los tribunales relacionados
         // $tribunales = TribunalesActa::where('acta_id', $id)->get();

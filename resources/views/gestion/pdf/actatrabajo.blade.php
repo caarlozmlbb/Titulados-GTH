@@ -99,7 +99,7 @@
             de las postulantes:
         </p>
 
-        <br><b>{{-- Insertar Estudiante --}}
+        <br><b>Univ. {{ mb_strtoupper($acta->nombre) }} {{ mb_strtoupper($acta->paterno) }} {{ mb_strtoupper($acta->materno) }} C.I {{ mb_strtoupper($acta->ci) }} R.U  {{ mb_strtoupper($acta->ru) }}
         </b>
 
         <p>
@@ -223,8 +223,11 @@
             </tr>
         </table>
         <div style="height: 20px;"></div>
-        <p>Estudiante ID: {{ $acta->estudiante_id }}</p>
-        <p>Estudiante: {{ $acta->estudiante_id }}</p>
+        <p>Estudiante: {{ $acta->nombre }}</p>
+<p>Docente: {{ $acta->nombre_docente }}</p>
+<p>Modalidad: {{ $acta->nombre_modalidad }}</p>
+
+
     </div>
 </body>
 </html>

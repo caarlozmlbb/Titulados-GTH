@@ -145,7 +145,7 @@
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                         <!-- Botón para Generar PDF -->
-                                        <a href="{{ route('acta.pdf', ['id' => $acta->id_acta]) }}" class="btn btn-outline-success btn-sm update" title="Generar PDF" target="_blank">
+                                        <a href="{{ route('acta.pdf', ['id' => $acta->id_estudiante]) }}" class="btn btn-outline-success btn-sm update" title="Generar PDF" target="_blank">
                                             <i class="fas fa-file-pdf"></i>
                                         </a>
                                     </td>
